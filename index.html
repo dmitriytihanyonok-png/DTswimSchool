@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>DTswim — школа плавания Дмитрия Тиханенка</title>
+<meta name="description" content="DTswim — школа плавания: расписание, программы тренировок на воде и на суше, тренеры, цены. Первое занятие бесплатно.">
+<meta name="theme-color" content="#03213A">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600&family=Unbounded:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --deep:#03213A;
+  --pool:#0B5C86;
+  --aqua:#4FD1D9;
+  --foam:#EAFBFD;
+  --red:#F0483E;
+  --yellow:#FFC531;
+  --panel:rgba(3,33,58,.72);
+  --line:rgba(79,209,217,.28);
+  --display:"Unbounded","Arial Black",Impact,sans-serif;
+  --body:"Onest","Segoe UI",Roboto,Arial,sans-serif;
+  --ease:cubic-bezier(.2,.7,.2,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:auto;-webkit-text-size-adjust:100%}
+body{
+  font-family:var(--body);color:var(--foam);background:var(--deep);
+  line-height:1.6;font-size:17px;min-height:100vh;overflow-x:hidden;
+}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--yellow);outline-offset:3px;border-radius:8px}
+
+/* ---------- water background ---------- */
+#water{position:fixed;inset:0;width:100%;height:100%;z-index:0;display:block}
+.veil{position:fixed;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(180deg,rgba(3,33,58,.55) 0%,rgba(3,33,58,.18) 45%,rgba(3,33,58,.5) 100%)}
+
+/* ---------- header ---------- */
+.bar{
+  position:fixed;top:0;left:0;right:0;z-index:50;
+  display:flex;align-items:center;justify-content:space-between;gap:24px;
+  padding:14px clamp(16px,4vw,48px);padding-top:calc(14px + env(safe-area-inset-top,0px));
+  background:linear-gradient(180deg,rgba(3,33,58,.92),rgba(3,33,58,.55));
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+}
+.brand{font-family:var(--display);font-weight:900;font-size:22px;letter-spacing:-.02em;display:flex;align-items:baseline;gap:1px}
+.brand span{color:var(--aqua);font-weight:500}
+.tabs{display:flex;gap:4px}
+.tab{
+  position:relative;padding:10px 16px;border-radius:999px;font-weight:500;font-size:15px;
+  color:rgba(234,251,253,.78);transition:color .25s,background .25s;
+}
+.tab:hover{color:var(--foam);background:rgba(79,209,217,.12)}
+.tab[aria-current="page"]{color:var(--deep);background:var(--yellow)}
+.tab.cta{border:1.5px solid var(--aqua)}
+.tab.cta[aria-current="page"]{border-color:var(--yellow)}
+
+/* ---------- pages ---------- */
+main{position:relative;z-index:2}
+.page{min-height:100vh;padding:calc(104px + env(safe-area-inset-top,0px)) clamp(16px,5vw,64px) 80px;max-width:1240px;margin:0 auto}
+.page[hidden]{display:none}
+h1,h2,h3{font-family:var(--display);line-height:1.1;letter-spacing:-.02em}
+h2.title{font-size:clamp(2rem,5.4vw,4rem);font-weight:900;margin-bottom:12px}
+.lead{max-width:56ch;font-size:1.12rem;color:rgba(234,251,253,.86);margin-bottom:40px}
+.rope{
+  height:10px;border-radius:6px;margin:28px 0;
+  background:repeating-linear-gradient(90deg,var(--red) 0 28px,var(--foam) 28px 56px,var(--yellow) 56px 84px,var(--foam) 84px 112px);
+  box-shadow:0 3px 0 rgba(0,0,0,.28);
+}
+.rope.thin{height:5px;margin:0;opacity:.5}
+
+.r{opacity:0}
+.page.in .r{animation:rise .85s var(--ease) both;animation-delay:calc(var(--i,0)*80ms + 120ms)}
+@keyframes rise{from{opacity:0;transform:translateY(34px) scale(.985)}to{opacity:1;transform:none}}
+
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:24px;
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+
+.btn{
+  display:inline-flex;align-items:center;gap:10px;padding:16px 28px;border-radius:999px;
+  font-weight:600;font-size:1.02rem;text-decoration:none;transition:transform .25s var(--ease),box-shadow .25s,background .25s;
+}
+.btn.main{background:var(--yellow);color:var(--deep);box-shadow:0 10px 30px rgba(255,197,49,.28)}
+.btn.main:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(255,197,49,.4)}
+.btn.ghost{border:1.5px solid var(--aqua);color:var(--foam)}
+.btn.ghost:hover{background:rgba(79,209,217,.16);transform:translateY(-3px)}
+
+/* ---------- home ---------- */
+.hero{min-height:calc(100vh - 190px);display:flex;flex-direction:column;justify-content:center;padding-bottom:20px}
+.hero .kicker{font-size:1.15rem;color:var(--aqua);font-weight:500;margin-bottom:6px}
+.logo-big{
+  font-family:var(--display);font-weight:900;letter-spacing:-.045em;line-height:.95;
+  font-size:clamp(3.4rem,15.5vw,12rem);
+  filter:url(#ripple);
+  background:linear-gradient(180deg,#fff 20%,var(--aqua) 100%);-webkit-background-clip:text;background-clip:text;color:transparent;
+  padding:.04em .06em .1em 0;
+}
+.hero .sub{max-width:44ch;font-size:1.25rem;margin-top:8px}
+.hero .actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:34px}
+
+.why h2{margin-bottom:34px}
+.why-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:18px}
+.reason{padding:28px 28px 30px}
+.reason h3{font-size:clamp(1.15rem,2.2vw,1.55rem);font-weight:700;margin-bottom:10px}
+.reason p{color:rgba(234,251,253,.84)}
+.reason.a{grid-column:span 7;background:linear-gradient(135deg,rgba(255,197,49,.94),rgba(255,160,40,.94));color:var(--deep);border-color:transparent;border-radius:34px}
+.reason.a p{color:rgba(3,33,58,.86)}
+.reason.b{grid-column:span 5}
+.reason.c,.reason.d,.reason.e{grid-column:span 4}
+.reason.f{grid-column:span 12;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;border-radius:999px;padding:22px 34px}
+.reason.f h3{margin:0}
+.reason.f p{margin:0}
+.reason:nth-child(odd):not(.a){border-radius:30px 14px 30px 14px}
+.reason:nth-child(even):not(.a):not(.f){border-radius:14px 30px 14px 30px}
+
+/* ---------- schedule ---------- */
+.sched{padding:14px 22px 22px;overflow:hidden}
+.sched-head,.lane{display:grid;grid-template-columns:150px 1fr 1fr;gap:14px;align-items:center}
+.sched-head{padding:12px 0 8px;color:var(--aqua);font-weight:600}
+.sched-head span:first-child{visibility:hidden}
+.lane{position:relative;padding:12px 10px;margin:0 -10px;border-radius:18px;transition:background .3s}
+.lane::before{content:"";position:absolute;left:0;right:0;bottom:0;height:4px;border-radius:2px;opacity:.35;
+  background:repeating-linear-gradient(90deg,var(--foam) 0 22px,transparent 22px 36px)}
+.lane:last-child::before{display:none}
+.day{font-family:var(--display);font-weight:700;font-size:1.05rem}
+.day .short{display:none}
+.slot{padding:12px 14px;border-radius:20px;text-align:center;display:grid;gap:6px;justify-items:center;transition:transform .3s var(--ease)}
+.slot .t{font-family:var(--display);font-weight:700;font-size:clamp(.8rem,1.5vw,1.08rem);white-space:nowrap}
+.slot .free{display:flex;align-items:center;gap:7px;font-size:.78rem;font-weight:600}
+.slot .dots{display:inline-flex;gap:4px}
+.slot .dots i{width:9px;height:9px;border-radius:50%;background:var(--deep)}
+.slot .dots i.x{background:transparent;border:1.5px solid var(--deep);opacity:.45}
+.slot.am{background:var(--aqua);color:var(--deep)}
+.slot.pm{background:var(--yellow);color:var(--deep)}
+.slot.none{background:transparent;border:1.5px dashed rgba(234,251,253,.25);color:rgba(234,251,253,.35);font-weight:500;padding:22px 14px}
+.slot.full{filter:saturate(.3);opacity:.7}
+.slot:not(.none):hover{transform:scale(1.04) rotate(-1deg)}
+.lane.today{background:rgba(79,209,217,.14);outline:1.5px solid var(--aqua)}
+.lane.today .day::after{content:"сегодня";display:inline-block;margin-left:8px;font-family:var(--body);font-size:.72rem;font-weight:600;color:var(--deep);background:var(--aqua);padding:2px 8px;border-radius:999px;vertical-align:middle}
+.note{margin-top:20px;color:rgba(234,251,253,.7);font-size:.95rem}
+
+/* ---------- programs ---------- */
+.seg-tabs{display:inline-flex;padding:5px;border-radius:999px;background:rgba(3,33,58,.7);border:1px solid var(--line);margin-bottom:28px}
+.seg-tabs button{padding:12px 34px;border-radius:999px;font-weight:600;transition:background .3s,color .3s}
+.seg-tabs button[aria-selected="true"]{background:var(--aqua);color:var(--deep)}
+.prog[hidden]{display:none}
+.prog{animation:swap .6s var(--ease) both}
+@keyframes swap{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:none}}
+.water-card{padding:32px}
+.water-card h3{font-size:clamp(1.4rem,3vw,2.1rem);margin-bottom:6px}
+.bar-set{display:flex;gap:6px;margin:26px 0 22px;height:68px}
+.seg{
+  flex:var(--m) 1 0;min-width:0;border-radius:14px;position:relative;overflow:hidden;
+  background:var(--c);transform-origin:left;
+  animation:grow 1s var(--ease) both;animation-delay:calc(var(--k)*110ms + 150ms);
+  display:flex;align-items:flex-end;padding:8px 10px;color:var(--deep);font-weight:600;font-size:.85rem;
+}
+@keyframes grow{from{transform:scaleX(0);opacity:0}to{transform:none;opacity:1}}
+.seg::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(115deg,transparent 0 14px,rgba(255,255,255,.18) 14px 18px)}
+.legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
+.legend div{padding:16px 18px;border-radius:16px;background:rgba(234,251,253,.07);border-left:6px solid var(--c)}
+.legend b{display:block;font-family:var(--display);font-size:1rem}
+.legend span{color:rgba(234,251,253,.8);font-size:.95rem}
+.dry-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:18px}
+.dry{padding:28px}
+.dry h3{font-size:1.6rem;margin:12px 0 14px}
+.days{display:flex;gap:8px;flex-wrap:wrap}
+.days i{font-style:normal;font-weight:600;font-size:.88rem;padding:5px 13px;border-radius:999px;background:var(--yellow);color:var(--deep)}
+.dry ul{list-style:none;display:grid;gap:9px}
+.dry li{padding-left:26px;position:relative;color:rgba(234,251,253,.88)}
+.dry li::before{content:"";position:absolute;left:0;top:.55em;width:12px;height:12px;border-radius:50%;border:3px solid var(--aqua)}
+.dry:nth-child(2){transform:translateY(18px)}
+
+/* ---------- program extras ---------- */
+.sub-tabs{display:inline-flex;gap:8px;margin-bottom:22px;flex-wrap:wrap}
+.sub-tabs button{padding:10px 24px;border-radius:999px;border:1.5px solid var(--aqua);font-weight:600;transition:background .3s,color .3s}
+.sub-tabs button[aria-selected="true"]{background:var(--foam);color:var(--deep);border-color:var(--foam)}
+.shot{position:relative;border-radius:30px 30px 30px 90px;overflow:hidden;min-height:240px;border:1px solid var(--line);margin-bottom:26px;background:var(--deep)}
+.shot img{display:none;width:100%;max-height:540px;object-fit:cover}
+.shot.has img{display:block}
+.shot .ph{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:20px;font-weight:500;color:rgba(234,251,253,.8);
+  background:repeating-linear-gradient(180deg,transparent 0 56px,rgba(255,255,255,.16) 56px 59px),linear-gradient(135deg,var(--pool),var(--deep))}
+.shot.has .ph{display:none}
+.shot figcaption{position:absolute;left:20px;bottom:18px;background:rgba(3,33,58,.82);padding:8px 18px;border-radius:999px;font-weight:600;font-size:.95rem}
+.ex-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px}
+.ex{padding:22px;display:flex;flex-direction:column;gap:12px;border-radius:26px}
+.ex:nth-child(3n+2){border-radius:26px 26px 26px 70px}
+.ex-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.ex h4{font-family:var(--display);font-size:1.02rem;line-height:1.3;letter-spacing:-.01em}
+.n{flex:none;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--yellow);color:var(--deep);font-family:var(--display);font-weight:900;font-size:.9rem}
+.dose{display:inline-block;align-self:flex-start;padding:4px 12px;border-radius:999px;background:var(--aqua);color:var(--deep);font-weight:600;font-size:.82rem}
+.scheme{background:rgba(234,251,253,.07);border-radius:18px;padding:12px 8px 6px}
+.scheme svg{display:block;width:100%;height:auto}
+.scheme .b,.scheme .q{fill:none;stroke-linecap:round;stroke-linejoin:round}
+.scheme .b{stroke:var(--foam);stroke-width:3.4}
+.scheme .q{stroke:var(--aqua);stroke-width:2.6}
+.scheme text{fill:rgba(234,251,253,.75);font:500 8px var(--body)}
+.ex p{color:rgba(234,251,253,.86);font-size:.95rem}
+
+/* ---------- coaches ---------- */
+.coach-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+.coach{padding:30px;display:flex;flex-direction:column;gap:14px;transition:transform .4s var(--ease)}
+.coach:hover{transform:translateY(-8px)}
+.avatar{
+  width:112px;height:112px;border-radius:50%;display:grid;place-items:center;
+  background:conic-gradient(var(--red),var(--yellow),var(--aqua),var(--red));padding:5px;
+}
+.avatar b{display:grid;place-items:center;width:100%;height:100%;border-radius:50%;background:var(--deep);font-family:var(--display);font-weight:900;font-size:1.9rem}
+.coach h3{font-size:1.4rem}
+.role{color:var(--aqua);font-weight:500}
+.ach{list-style:none;display:grid;gap:8px;margin-top:4px}
+.ach li{padding:10px 14px;border-radius:12px;background:rgba(234,251,253,.08)}
+.ach li.empty{background:transparent;border:1.5px dashed rgba(234,251,253,.25);color:rgba(234,251,253,.6)}
+
+/* ---------- prices ---------- */
+.price-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:18px}
+.price{padding:34px;display:flex;flex-direction:column;justify-content:space-between;gap:22px;min-height:260px}
+.price h3{font-size:1.5rem;margin-bottom:8px}
+.price p{color:rgba(234,251,253,.84)}
+.amount{font-family:var(--display);font-weight:900;font-size:clamp(2.6rem,6vw,4.6rem);line-height:1;letter-spacing:-.04em}
+.amount small{font-size:.38em;font-weight:500;letter-spacing:0;margin-left:6px}
+.price.free{grid-column:span 6;background:linear-gradient(140deg,var(--red),#ff7a4a);border-color:transparent;border-radius:40px;color:#fff}
+.price.free p{color:rgba(255,255,255,.92)}
+.price.grp{grid-column:span 3}
+.price.ind{grid-column:span 3}
+.price.grp{border-radius:24px 24px 24px 80px}
+.price.ind{border-radius:24px 80px 24px 24px}
+
+/* ---------- signup ---------- */
+.signup{display:grid;grid-template-columns:1.1fr .9fr;gap:22px;align-items:stretch}
+.sign-main{padding:clamp(28px,5vw,56px);border-radius:40px}
+.sign-main h2{margin-bottom:18px}
+.tg{display:inline-flex;align-items:center;gap:14px;padding:20px 34px;border-radius:999px;background:var(--yellow);color:var(--deep);font-weight:700;font-size:1.15rem;text-decoration:none;
+  position:relative;transition:transform .3s var(--ease)}
+.tg:hover{transform:scale(1.05)}
+.tg::before{content:"";position:absolute;inset:0;border-radius:999px;border:2px solid var(--yellow);animation:ping 2.2s ease-out infinite}
+@keyframes ping{0%{transform:scale(1);opacity:.9}100%{transform:scale(1.35,1.6);opacity:0}}
+.tg svg{width:26px;height:26px}
+.link-text{margin-top:18px;color:rgba(234,251,253,.7);font-size:.95rem;word-break:break-all}
+.steps{padding:32px;border-radius:30px;list-style:none;counter-reset:s;display:grid;gap:22px;align-content:center}
+.steps li{counter-increment:s;display:grid;grid-template-columns:48px 1fr;gap:16px;align-items:start}
+.steps li::before{content:counter(s);display:grid;place-items:center;width:48px;height:48px;border-radius:50%;background:var(--aqua);color:var(--deep);font-family:var(--display);font-weight:900}
+.steps b{display:block;font-family:var(--display);font-size:1.05rem;margin-bottom:2px}
+.steps span{color:rgba(234,251,253,.8)}
+
+footer{position:relative;z-index:2;text-align:center;padding:10px 20px 40px;color:rgba(234,251,253,.55);font-size:.9rem}
+
+/* ---------- swim transition ---------- */
+.sheet{position:fixed;left:0;top:0;height:100%;display:flex;z-index:100;pointer-events:none;visibility:hidden;will-change:transform}
+.sheet .fill{flex:none;position:relative;height:100%;background-color:var(--c);margin:0 -1px}
+.sheet.lanes .fill{background-image:repeating-linear-gradient(180deg,transparent 0,transparent calc(100% / 6 - 3px),rgba(255,255,255,.38) calc(100% / 6 - 3px),rgba(255,255,255,.38) calc(100% / 6))}
+.wv{flex:none;width:120px;height:100%;background:var(--c);
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='400' viewBox='0 0 120 400'%3E%3Cpath d='M0 0H64Q8 100 64 200T64 400H0Z'/%3E%3C/svg%3E") 0 0/120px 400px repeat-y;
+          mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='400' viewBox='0 0 120 400'%3E%3Cpath d='M0 0H64Q8 100 64 200T64 400H0Z'/%3E%3C/svg%3E") 0 0/120px 400px repeat-y;
+  animation:driftY 1.1s linear infinite}
+.wv.trail{transform:scaleX(-1);animation-direction:reverse}
+@keyframes driftY{to{-webkit-mask-position:0 400px;mask-position:0 400px}}
+.dest{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:0 20px;
+  font-family:var(--display);font-weight:900;font-size:clamp(2.2rem,9vw,6.5rem);letter-spacing:-.04em;color:var(--foam)}
+.swimmer{position:absolute;width:150px;height:46px;overflow:visible;
+  right:calc(var(--lead) * -1 - 10px);top:calc(var(--lane) * 100% / 6 + 100% / 12 - 23px)}
+.swimmer .arm,.swimmer .leg{transform-box:view-box}
+.swimmer .arm.a{transform-origin:100px 17px;animation:stroke .6s ease-in-out infinite}
+.swimmer .arm.b{transform-origin:100px 29px;animation:stroke .6s ease-in-out infinite}
+.swimmer .leg.l1{transform-origin:56px 21px;animation:kick .22s ease-in-out infinite alternate}
+.swimmer .leg.l2{transform-origin:56px 26px;animation:kick .22s ease-in-out infinite alternate-reverse}
+@keyframes stroke{0%,100%{transform:rotate(-65deg)}50%{transform:rotate(55deg)}}
+@keyframes kick{from{transform:rotate(-14deg)}to{transform:rotate(14deg)}}
+
+/* ---------- responsive ---------- */
+@media (max-width:980px){
+  .reason.a,.reason.b{grid-column:span 12}
+  .reason.c,.reason.d,.reason.e{grid-column:span 12}
+  .price.free{grid-column:span 12}
+  .price.grp,.price.ind{grid-column:span 6}
+  .signup{grid-template-columns:1fr}
+  .dry:nth-child(2){transform:none}
+}
+@media (max-width:760px){
+  body{font-size:16px}
+  .bar{justify-content:center}
+  .brand{font-size:20px}
+  .tabs{
+    position:fixed;left:0;right:0;bottom:0;z-index:60;justify-content:space-around;gap:0;
+    padding:8px 6px calc(8px + env(safe-area-inset-bottom,0px));
+    background:rgba(3,33,58,.95);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid var(--line);
+  }
+  .tab{flex:1;padding:10px 2px;font-size:12px;text-align:center;border-radius:14px}
+  .tab.cta{border:0}
+  .page{padding-bottom:120px}
+  .sched-head,.lane{grid-template-columns:52px 1fr 1fr;gap:8px}
+  .day .full{display:none}.day .short{display:inline}
+  .lane.today .day::after{display:none}
+  .slot{padding:10px 6px}.slot .t{font-size:.74rem}.slot .free{font-size:.66rem;gap:4px}.slot .dots i{width:7px;height:7px}.swimmer{width:112px!important;height:34px!important}.dest{font-size:clamp(2rem,11vw,4rem)!important}
+  .sched{padding:10px 16px 18px}
+  .price.grp,.price.ind{grid-column:span 12}
+  .reason.f{border-radius:30px}
+  .bar-set{height:56px}
+  .seg{font-size:.7rem;padding:6px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  .r{opacity:1}
+  .logo-big{filter:none}
+}
+</style>
+</head>
+<body>
+
+<!-- water-ripple filter for the big logo -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <filter id="ripple" x="-5%" y="-10%" width="110%" height="125%">
+    <feTurbulence id="turb" type="fractalNoise" baseFrequency="0.008 0.02" numOctaves="2" seed="4" result="n"/>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="12" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+</svg>
+
+<canvas id="water" aria-hidden="true"></canvas>
+<div class="veil" aria-hidden="true"></div>
+
+<header class="bar">
+  <button class="brand" data-go="home" aria-label="DTswim — на главную">DT<span>swim</span></button>
+  <nav class="tabs" aria-label="Разделы сайта">
+    <button class="tab" data-go="schedule">Расписание</button>
+    <button class="tab" data-go="programs">Программы</button>
+    <button class="tab" data-go="coaches">Тренеры</button>
+    <button class="tab" data-go="prices">Цены</button>
+    <button class="tab cta" data-go="signup">Запись</button>
+  </nav>
+</header>
+
+<main>
+
+  <!-- ===== HOME ===== -->
+  <section class="page" id="home">
+    <div class="hero">
+      <p class="kicker r">Школа плавания Дмитрия Тиханенка</p>
+      <h1 class="logo-big r" aria-label="DTswim">DTswim</h1>
+      <p class="sub r">Тренируем на воде и на суше, в маленьких группах. Первое занятие — бесплатно.</p>
+      <div class="rope r" style="max-width:520px"></div>
+      <div class="actions r">
+        <button class="btn main" data-go="signup">Записаться на бесплатное занятие</button>
+        <button class="btn ghost" data-go="schedule">Смотреть расписание</button>
+      </div>
+    </div>
+
+    <div class="why">
+      <h2 class="title r">Почему выбирают DTswim</h2>
+      <div class="why-grid">
+        <article class="reason a panel r">
+          <h3>Первое занятие бесплатно</h3>
+          <p>Приходите, попробуйте воду и познакомьтесь с тренером. Платить начинаете только тогда, когда вам понравилось.</p>
+        </article>
+        <article class="reason b panel r">
+          <h3>Группы от 1 до 4 человек</h3>
+          <p>Тренер видит технику каждого и сразу поправляет. Нужно ещё больше внимания — есть индивидуальные занятия.</p>
+        </article>
+        <article class="reason c panel r">
+          <h3>4 км за тренировку</h3>
+          <p>Полноценная работа на воде произвольным стилем: разминка, техника, основная серия и заминка.</p>
+        </article>
+        <article class="reason d panel r">
+          <h3>Вода и суша</h3>
+          <p>Отдельные тренировки на верх, низ, корпус и пресс по дням недели — пловцу нужна сила не только в бассейне.</p>
+        </article>
+        <article class="reason e panel r">
+          <h3>Шесть дней в неделю</h3>
+          <p>Занятия с понедельника по субботу: утром и вечером. Выбирайте время, которое подходит вам.</p>
+        </article>
+        <article class="reason f panel r">
+          <h3>Три тренера в команде</h3>
+          <p>Дмитрий Тиханенок, Анатолий Олехнович и Михаил Лабко.</p>
+          <button class="btn ghost" data-go="coaches">Познакомиться</button>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SCHEDULE ===== -->
+  <section class="page" id="schedule" hidden>
+    <h2 class="title r">Расписание</h2>
+    <p class="lead r">Шесть тренировочных дней. Выберите утро или вечер — в каждой ячейке видно, сколько мест свободно.</p>
+    <div class="sched panel r">
+      <div class="sched-head"><span>День</span><span>Утро</span><span>Вечер</span></div>
+      <div id="lanes"></div>
+    </div>
+    <p class="note r">В понедельник, среду и пятницу можно прийти и утром, и вечером. Во вторник и четверг — только вечером. В субботу — утренняя тренировка. В группе до 4 человек.</p>
+  </section>
+
+  <!-- ===== PROGRAMS ===== -->
+  <section class="page" id="programs" hidden>
+    <h2 class="title r">Программы тренировок</h2>
+    <p class="lead r">Две части подготовки: тренировки в бассейне и занятия на суше.</p>
+    <div class="seg-tabs r" role="tablist" aria-label="Тип программы">
+      <button role="tab" id="t-water" aria-selected="true" aria-controls="p-water">Вода</button>
+      <button role="tab" id="t-dry" aria-selected="false" aria-controls="p-dry">Суша</button>
+    </div>
+
+    <div class="prog r" id="p-water" role="tabpanel" aria-labelledby="t-water">
+      <figure class="shot" data-img="water">
+        <img alt="Тренировка на воде">
+        <div class="ph">Здесь появится фото тренировки на воде</div>
+        <figcaption>Вода · произвольный стиль · 4 км</figcaption>
+      </figure>
+      <div class="water-card panel">
+        <h3>Вода: произвольный стиль, 4 км</h3>
+        <p>Объём одной тренировки — 4 км. Пример того, как он распределяется:</p>
+        <div class="bar-set" id="barset"></div>
+        <div class="legend" id="legend"></div>
+      </div>
+    </div>
+
+    <div class="prog" id="p-dry" role="tabpanel" aria-labelledby="t-dry" hidden>
+      <div class="sub-tabs" role="tablist" aria-label="Занятия на суше">
+        <button role="tab" id="t-core" aria-selected="true">Корпус</button>
+        <button role="tab" id="t-str" aria-selected="false">Сила</button>
+      </div>
+
+      <div id="d-core">
+        <div class="days" style="margin-bottom:18px"><i>Вт</i><i>Чт</i></div>
+        <figure class="shot" data-img="core">
+          <img alt="Упражнения на корпус">
+          <div class="ph">Здесь появится картинка с упражнениями на корпус</div>
+          <figcaption>Суша · корпус и пресс</figcaption>
+        </figure>
+        <div class="ex-grid" id="coreGrid"></div>
+      </div>
+
+      <div id="d-str" hidden>
+        <div class="days" style="margin-bottom:18px"><i>Пн</i><i>Ср</i><i>Пт</i></div>
+        <div class="ex-grid" id="strGrid"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== COACHES ===== -->
+  <section class="page" id="coaches" hidden>
+    <h2 class="title r">Наши тренеры</h2>
+    <p class="lead r">Три тренера, которые ведут занятия и следят за вашей техникой.</p>
+    <div class="coach-grid" id="coachGrid"></div>
+  </section>
+
+  <!-- ===== PRICES ===== -->
+  <section class="page" id="prices" hidden>
+    <h2 class="title r">Цены</h2>
+    <p class="lead r">Простая цена без абонементов с подвохом. Начните с бесплатного занятия.</p>
+    <div class="price-grid">
+      <article class="price free panel r">
+        <div><h3>Первое занятие</h3><p>Попробуйте тренировку и познакомьтесь с тренером.</p></div>
+        <div class="amount">0<small>BYN</small></div>
+      </article>
+      <article class="price grp panel r">
+        <div><h3>В группе</h3><p>От 1 до 4 человек.</p></div>
+        <div class="amount">35<small>BYN</small></div>
+      </article>
+      <article class="price ind panel r">
+        <div><h3>Индивидуально</h3><p>Тренер только с вами.</p></div>
+        <div class="amount">50<small>BYN</small></div>
+      </article>
+    </div>
+    <div class="r" style="margin-top:34px"><button class="btn main" data-go="signup">Записаться</button></div>
+  </section>
+
+  <!-- ===== SIGNUP ===== -->
+  <section class="page" id="signup" hidden>
+    <div class="signup">
+      <div class="sign-main panel r">
+        <h2 class="title">Записаться на первое занятие</h2>
+        <p class="lead" style="margin-bottom:30px">Напишите нам в Telegram — подберём группу и время из расписания.</p>
+        <a class="tg" href="https://t.me/ordersecurity" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.9 3.6 2.7 11c-1.3.5-1.3 1.3-.2 1.6l4.9 1.5 1.9 5.8c.2.6.1.8.7.8.5 0 .7-.2 1-.5l2.4-2.3 4.9 3.6c.9.5 1.5.2 1.8-.8l3.2-15.2c.3-1.3-.5-1.9-1.4-1.5Zm-3.3 3.7-8.7 7.9-.3 3.6-1.5-4.9 10.5-6.6Z"/></svg>
+          Написать в Telegram
+        </a>
+        <p class="link-text">t.me/ordersecurity</p>
+      </div>
+      <ol class="steps panel r">
+        <li><div><b>Откройте Telegram</b><span>Нажмите кнопку — чат откроется сразу.</span></div></li>
+        <li><div><b>Напишите, когда удобно</b><span>Имя и день из расписания: утро или вечер.</span></div></li>
+        <li><div><b>Приходите в бассейн</b><span>Первое занятие бесплатно.</span></div></li>
+      </ol>
+    </div>
+  </section>
+
+</main>
+
+<footer>DTswim — школа плавания Дмитрия Тиханенка</footer>
+
+<div id="sheets" aria-hidden="true"></div>
+
+<script>
+/* ============ ДАННЫЕ: редактируйте здесь ============ */
+const CAPACITY = 4;   // мест в одной группе
+// taken — сколько мест уже занято (сейчас свободны все)
+const SCHEDULE = [
+  { dow:1, full:'Понедельник', short:'Пн', am:{t:'8:00–9:45', taken:0},  pm:{t:'15:00–16:45', taken:0} },
+  { dow:2, full:'Вторник',     short:'Вт', am:null,                      pm:{t:'15:00–16:45', taken:0} },
+  { dow:3, full:'Среда',       short:'Ср', am:{t:'8:00–9:45', taken:0},  pm:{t:'15:00–16:45', taken:0} },
+  { dow:4, full:'Четверг',     short:'Чт', am:null,                      pm:{t:'15:00–16:45', taken:0} },
+  { dow:5, full:'Пятница',     short:'Пт', am:{t:'8:00–9:45', taken:0},  pm:{t:'15:00–16:45', taken:0} },
+  { dow:6, full:'Суббота',     short:'Сб', am:{t:'8:00–10:00', taken:0}, pm:null }
+];
+
+// Фото: имя файла рядом с index.html (или ссылка / data:-адрес). Пока файла нет — показывается заглушка.
+const IMAGES = { water:'water.jpg', core:'core.jpg' };
+
+// Пример структуры водной тренировки (сумма = 4000 м)
+const WATER = [
+  { name:'Разминка',       m:600,  c:'#4FD1D9', text:'Лёгкое плавание произвольным стилем' },
+  { name:'Техника',        m:600,  c:'#FFC531', text:'Работа рук, дыхание, положение тела' },
+  { name:'Основная серия', m:1800, c:'#F0483E', text:'Серии на длинных отрезках' },
+  { name:'Ускорения',      m:600,  c:'#9be7ec', text:'Короткие отрезки на высокой скорости' },
+  { name:'Заминка',        m:400,  c:'#ffe08a', text:'Расслабленное плавание' }
+];
+
+const COACHES = [
+  { name:'Дмитрий Тиханенок',  initials:'ДТ', role:'Тренер',
+    ach:['Мастер спорта (МС)','Призёр этапов Кубков мира и чемпионатов Европы по плаванию'] },
+  { name:'Анатолий Олехнович', initials:'АО', role:'Тренер',
+    ach:['Мастер спорта (МС)','Призёр Кубков РБ'] },
+  { name:'Михаил Лабко',       initials:'МЛ', role:'Тренер',
+    ach:['Кандидат в мастера спорта (КМС)','Призёр чемпионатов РБ'] }
+];
+
+// Схемы упражнений: точки [x,y] в поле 100×100. head — голова, lines — тело, eq — снаряд/скамья, db — гантели/упоры
+const STRENGTH = [
+  { t:'Короткие приседания на одной ноге', dose:'10 раз на каждую ногу',
+    tip:'Свободная нога вперёд, спина прямая. Приседайте неглубоко, колено не заваливайте внутрь.',
+    labels:['Старт','Приседание'],
+    poses:[
+      { head:[50,12], lines:[[[50,24],[50,52]],[[50,52],[50,71],[50,90]],[[50,52],[66,54],[82,56]],[[50,26],[60,32],[70,32]]] },
+      { head:[44,28], lines:[[[46,40],[40,64]],[[40,64],[58,70],[54,90]],[[40,64],[62,58],[84,56]],[[46,42],[58,46],[70,46]]] } ] },
+  { t:'Отжимания', dose:'',
+    tip:'Тело — прямая линия, локти под углом около 45° к корпусу. Опускайтесь, пока грудь почти не коснётся пола.',
+    labels:['Вверху','Внизу'],
+    poses:[
+      { head:[19,47], lines:[[[28,52],[58,69],[74,79],[90,88]],[[28,52],[28,70],[28,88]]] },
+      { head:[19,72], lines:[[[28,76],[58,82],[74,85],[90,88]],[[28,76],[42,82],[28,88]]] } ] },
+  { t:'Разгибание ног', dose:'вес 40–50%',
+    tip:'Спина прижата к спинке. Разгибайте ноги плавно и так же медленно возвращайтесь вниз.',
+    labels:['Старт','Разгибание'],
+    poses:[
+      { head:[36,18], eq:[[[20,67],[66,67]],[[24,67],[24,26]],[[40,67],[40,90]]], lines:[[[36,30],[36,64]],[[34,34],[44,48],[48,62]],[[36,64],[62,64],[60,88]]], db:[[60,87]] },
+      { head:[36,18], eq:[[[20,67],[66,67]],[[24,67],[24,26]],[[40,67],[40,90]]], lines:[[[36,30],[36,64]],[[34,34],[44,48],[48,62]],[[36,64],[62,64],[88,62]]], db:[[87,62]] } ] },
+  { t:'Плечи «бабочка»', dose:'гантели по 1 кг',
+    tip:'Разводите руки в стороны до уровня плеч, локти чуть согнуты. Опускайте медленно, без рывков.',
+    labels:['Старт','Руки в стороны'],
+    poses:[
+      { head:[50,16], lines:[[[50,26],[50,58]],[[38,28],[62,28]],[[50,58],[44,90]],[[50,58],[56,90]],[[38,28],[35,46],[37,62]],[[62,28],[65,46],[63,62]]], db:[[37,63],[63,63]] },
+      { head:[50,16], lines:[[[50,26],[50,58]],[[38,28],[62,28]],[[50,58],[44,90]],[[50,58],[56,90]],[[38,28],[21,27],[6,32]],[[62,28],[79,27],[94,32]]], db:[[5,33],[95,33]] } ] },
+  { t:'Отжимания от скамьи на трицепс', dose:'',
+    tip:'Локти смотрят назад, спина близко к скамье. Опускайтесь до угла около 90° в локтях.',
+    labels:['Вверху','Внизу'],
+    poses:[
+      { head:[34,26], eq:[[[10,62],[34,62]],[[12,62],[12,90]],[[32,62],[32,90]]], lines:[[[36,38],[44,64]],[[36,38],[34,50],[30,62]],[[44,64],[66,78],[88,90]]] },
+      { head:[36,40], eq:[[[10,62],[34,62]],[[12,62],[12,90]],[[32,62],[32,90]]], lines:[[[38,52],[44,76]],[[38,52],[26,58],[30,62]],[[44,76],[66,84],[88,90]]] } ] },
+  { t:'Сгибание ног', dose:'вес 40–50%',
+    tip:'Бёдра прижаты к скамье. Сгибайте ноги до конца и опускайте медленно.',
+    labels:['Старт','Сгибание'],
+    poses:[
+      { head:[10,62], eq:[[[6,70],[84,70]],[[10,70],[10,90]],[[80,70],[80,90]]], lines:[[[18,64],[50,64]],[[50,64],[70,64],[88,64]]], db:[[88,63]] },
+      { head:[10,62], eq:[[[6,70],[84,70]],[[10,70],[10,90]],[[80,70],[80,90]]], lines:[[[18,64],[50,64]],[[50,64],[70,64],[72,46]]], db:[[72,46]] } ] },
+  { t:'Кубинский жим стоя', dose:'1–3 кг',
+    tip:'Три движения подряд: тяга гантелей к груди, поворот предплечий вверх, жим над головой. Вес лёгкий, без рывков.',
+    labels:['Тяга','Поворот','Жим'],
+    poses:[
+      { head:[50,18], lines:[[[50,28],[50,58]],[[38,30],[62,30]],[[50,58],[44,90]],[[50,58],[56,90]],[[38,30],[22,26],[36,38]],[[62,30],[78,26],[64,38]]], db:[[36,39],[64,39]] },
+      { head:[50,18], lines:[[[50,28],[50,58]],[[38,30],[62,30]],[[50,58],[44,90]],[[50,58],[56,90]],[[38,30],[22,28],[22,12]],[[62,30],[78,28],[78,12]]], db:[[22,10],[78,10]] },
+      { head:[50,18], lines:[[[50,28],[50,58]],[[38,30],[62,30]],[[50,58],[44,90]],[[50,58],[56,90]],[[38,30],[34,16],[36,5]],[[62,30],[66,16],[64,5]]], db:[[36,4],[64,4]] } ] },
+  { t:'Выпады в движении', dose:'',
+    tip:'Шаг вперёд, переднее колено над стопой, заднее почти касается пола. Спина прямая.',
+    labels:['Старт','Выпад'],
+    poses:[
+      { head:[50,12], lines:[[[50,24],[50,52]],[[50,52],[48,71],[46,90]],[[50,52],[52,71],[54,90]],[[50,26],[58,40],[52,50]]] },
+      { head:[46,18], lines:[[[46,30],[46,58]],[[46,58],[70,62],[70,90]],[[46,58],[30,82],[12,86]],[[46,32],[56,44],[48,54]]] } ] }
+];
+
+const CORE = [
+  { t:'Скручивания', dose:'',
+    tip:'Поясница прижата к полу, поднимайте лопатки. Шею руками не тяните.',
+    labels:['Старт','Скручивание'],
+    poses:[
+      { head:[12,82], lines:[[[20,84],[50,84]],[[50,84],[66,66],[80,84]],[[20,82],[12,78]]] },
+      { head:[22,66], lines:[[[30,72],[50,84]],[[50,84],[66,66],[80,84]],[[30,72],[20,66]]] } ] },
+  { t:'Планка', dose:'',
+    tip:'Тело — прямая линия, живот напряжён. Поясницу не прогибайте.',
+    labels:['Удержание'],
+    poses:[ { head:[16,58], lines:[[[24,62],[58,76],[74,82],[90,88]],[[24,62],[24,86],[40,86]]] } ] },
+  { t:'Подъём ног лёжа', dose:'',
+    tip:'Поясница прижата к полу. Опускайте ноги медленно, без рывка.',
+    labels:['Низ','Верх'],
+    poses:[
+      { head:[10,84], lines:[[[18,84],[44,84]],[[44,84],[92,84]]] },
+      { head:[10,84], lines:[[[18,84],[44,84]],[[44,84],[44,38]]] } ] },
+  { t:'«Лодочка»', dose:'',
+    tip:'Баланс на ягодицах, спина прямая. Корпус и ноги образуют букву V.',
+    labels:['Удержание'],
+    poses:[ { head:[34,32], lines:[[[38,44],[50,80]],[[50,80],[70,62],[88,44]],[[40,50],[66,54]]] } ] }
+];
+
+/* ============ РЕНДЕР ============ */
+const $ = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => [...r.querySelectorAll(s)];
+const dow = new Date().getDay();
+
+function slotHTML(sl, kind){
+  if (!sl) return '<div class="slot none">—</div>';
+  const free = Math.max(0, CAPACITY - sl.taken);
+  const dots = Array.from({length:CAPACITY}, (_,i) => `<i class="${i<free?'':'x'}"></i>`).join('');
+  return `<div class="slot ${kind}${free===0?' full':''}">
+    <span class="t">${sl.t}</span>
+    <span class="free"><span class="dots">${dots}</span>${free>0?`свободно ${free} из ${CAPACITY}`:'мест нет'}</span>
+  </div>`;
+}
+$('#lanes').innerHTML = SCHEDULE.map(d => `
+  <div class="lane${d.dow===dow?' today':''}">
+    <div class="day"><span class="full">${d.full}</span><span class="short">${d.short}</span></div>
+    ${slotHTML(d.am,'am')}${slotHTML(d.pm,'pm')}
+  </div>`).join('');
+
+$('#barset').innerHTML = WATER.map((w,k) =>
+  `<div class="seg" style="--m:${w.m};--c:${w.c};--k:${k}">${w.m} м</div>`).join('');
+$('#legend').innerHTML = WATER.map(w =>
+  `<div style="--c:${w.c}"><b>${w.name} · ${w.m} м</b><span>${w.text}</span></div>`).join('');
+
+$('#coachGrid').innerHTML = COACHES.map(c => `
+  <article class="coach panel r">
+    <div class="avatar"><b>${c.initials}</b></div>
+    <div><h3>${c.name}</h3><p class="role">${c.role}</p></div>
+    <ul class="ach">${c.ach.map(a=>`<li>${a}</li>`).join('')}</ul>
+  </article>`).join('');
+
+/* схемы упражнений */
+const poly = (pts, c) => `<polyline class="${c}" points="${pts.map(p=>p.join(',')).join(' ')}"/>`;
+function scheme(poses, labels){
+  const PW = 100, GAP = 26, n = poses.length, W = n*PW + (n-1)*GAP;
+  let o = `<svg viewBox="0 0 ${W} 112" role="img" aria-label="Схема: ${labels.join(' → ')}">`;
+  poses.forEach((p,i) => {
+    const x = i*(PW+GAP);
+    o += `<g transform="translate(${x} 0)"><line x1="0" y1="92" x2="100" y2="92" stroke="rgba(79,209,217,.45)" stroke-width="1.5"/>`;
+    (p.eq||[]).forEach(l => o += poly(l,'q'));
+    p.lines.forEach(l => o += poly(l,'b'));
+    o += `<circle cx="${p.head[0]}" cy="${p.head[1]}" r="6" fill="#EAFBFD"/>`;
+    (p.db||[]).forEach(d => o += `<circle cx="${d[0]}" cy="${d[1]}" r="3.8" fill="#FFC531"/>`);
+    o += `<text x="50" y="107" text-anchor="middle">${labels[i]}</text></g>`;
+    if (i < n-1) o += `<path d="M${x+PW+5} 52h14m-5-5 5 5-5 5" stroke="#FFC531" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`;
+  });
+  return o + '</svg>';
+}
+const exCard = (e,i,numbered) => `
+  <article class="ex panel">
+    <div class="ex-top"><h4>${e.t}</h4>${numbered?`<span class="n">${i+1}</span>`:''}</div>
+    ${e.dose?`<span class="dose">${e.dose}</span>`:''}
+    <div class="scheme">${scheme(e.poses,e.labels)}</div>
+    <p>${e.tip}</p>
+  </article>`;
+$('#strGrid').innerHTML  = STRENGTH.map((e,i) => exCard(e,i,true)).join('');
+$('#coreGrid').innerHTML = CORE.map((e,i) => exCard(e,i,false)).join('');
+
+/* фото */
+$$('.shot').forEach(f => {
+  const src = IMAGES[f.dataset.img]; if (!src) return;
+  const im = $('img', f);
+  im.onload = () => f.classList.add('has');
+  im.src = src;
+});
+
+/* ============ ПОДВОДНЫЙ ФОН (каустика) ============ */
+const cv = $('#water'), cx = cv.getContext('2d');
+let CW, CH, img;
+function sizeCanvas(){
+  CH = 90; CW = Math.max(48, Math.min(220, Math.round(CH * innerWidth / innerHeight)));
+  cv.width = CW; cv.height = CH; img = cx.createImageData(CW, CH);
+}
+function paintWater(t){
+  const d = img.data, s = 4.5 / CH; t *= 0.0005;
+  for (let y=0; y<CH; y++){
+    const v = y*s, k = y/CH;
+    const br = 3+4*k, bg = 33+42*k, bb = 58+54*k;
+    for (let x=0; x<CW; x++){
+      const u = x*s;
+      const a = Math.sin(u*1.3 + Math.sin(v*1.7 + t*2.1)*1.6 + t*1.3);
+      const b = Math.sin(v*1.9 + Math.sin(u*1.2 - t*1.7)*1.5 - t);
+      const c = Math.sin((u+v)*1.1 + Math.sin((u-v)*.8 + t*1.9)*1.7);
+      let l = 1 - Math.abs(a+b+c)/.55; l = l>0 ? l*l : 0;
+      const i = (y*CW + x)*4;
+      d[i]=br+l*40; d[i+1]=bg+l*110; d[i+2]=bb+l*105; d[i+3]=255;
+    }
+  }
+  cx.putImageData(img,0,0);
+}
+const turb = $('#turb');
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+let last = 0;
+function loop(t){
+  requestAnimationFrame(loop);
+  if (document.hidden || t-last < 33) return;
+  last = t;
+  paintWater(t);
+  if (current==='home'){
+    turb.setAttribute('baseFrequency',
+      `${(0.007+0.0025*Math.sin(t*.0007)).toFixed(5)} ${(0.02+0.006*Math.cos(t*.0009)).toFixed(5)}`);
+  }
+}
+sizeCanvas(); addEventListener('resize', sizeCanvas);
+
+/* ============ НАВИГАЦИЯ И ПЕРЕХОДЫ ============ */
+const PAGES = ['home','schedule','programs','coaches','prices','signup'];
+const LABELS = { home:'DTswim', schedule:'Расписание', programs:'Программы', coaches:'Тренеры', prices:'Цены', signup:'Запись' };
+let current = null, busy = false;
+
+/* слои перехода: пловцы на передней кромке волны */
+const CAPS = ['#F0483E','#FFC531','#4FD1D9','#ffffff','#F0483E','#FFC531'];
+const LEADS = [70,190,20,130,100,220];
+function swimmerSVG(lane){
+  const cap = CAPS[lane], ph = (lane*.17).toFixed(2);
+  return `<svg class="swimmer" style="--lane:${lane};--lead:${LEADS[lane]}px" viewBox="0 0 150 46" aria-hidden="true">
+    <ellipse cx="22" cy="23" rx="24" ry="9" fill="rgba(255,255,255,.6)"/>
+    <circle cx="4" cy="15" r="3" fill="rgba(255,255,255,.75)"/><circle cx="2" cy="31" r="2.5" fill="rgba(255,255,255,.75)"/>
+    <g class="leg l1"><rect x="30" y="19" width="26" height="3.6" rx="1.8" fill="#ffe3c4"/></g>
+    <g class="leg l2"><rect x="30" y="24" width="26" height="3.6" rx="1.8" fill="#ffe3c4"/></g>
+    <ellipse cx="82" cy="23" rx="32" ry="8" fill="#ffe3c4"/>
+    <g class="arm a" style="animation-delay:-${ph}s"><path d="M100 17H138" stroke="#ffe3c4" stroke-width="4.5" stroke-linecap="round"/></g>
+    <g class="arm b" style="animation-delay:-${(+ph+.3).toFixed(2)}s"><path d="M100 29H138" stroke="#ffe3c4" stroke-width="4.5" stroke-linecap="round"/></g>
+    <circle cx="116" cy="23" r="8.5" fill="${cap}"/>
+  </svg>`;
+}
+const SHEET_COLORS = ['#EAFBFD','#4FD1D9','#0B5C86','#03213A'];
+$('#sheets').innerHTML = SHEET_COLORS.map((c,i) => `
+  <div class="sheet${i===3?' lanes':''}" style="--c:${c}">
+    <i class="wv trail"></i>
+    <div class="fill">${i===3?'<div class="dest"></div>':''}</div>
+    <i class="wv lead"></i>
+    ${i===0 ? [0,1,2,3,4,5].map(swimmerSVG).join('') : ''}
+  </div>`).join('');
+
+function show(id){
+  $$('.page').forEach(p => { p.hidden = p.id !== id; p.classList.remove('in'); });
+  $$('[data-go]').forEach(b => {
+    if (b.classList.contains('tab') || b.classList.contains('brand')){
+      if (b.dataset.go === id && id !== 'home') b.setAttribute('aria-current','page'); else b.removeAttribute('aria-current');
+    }
+  });
+  const page = $('#'+id);
+  $$('.r', page).forEach((el,i) => el.style.setProperty('--i', i));
+  window.scrollTo(0,0);
+  void page.offsetWidth;
+  page.classList.add('in');
+  current = id;
+  try { history.replaceState(null,'', id==='home' ? location.pathname : '#'+id); } catch(e){}
+  document.title = id==='home' ? 'DTswim — школа плавания Дмитрия Тиханенка' : $('#'+id+' .title').textContent.trim() + ' — DTswim';
+}
+
+function go(id){
+  if (!PAGES.includes(id) || id===current || busy) return;
+  if (reduce){ show(id); return; }
+  busy = true;
+  const W = innerWidth, S = 120, D = 1800, STEP = 90;
+  const sheets = $$('.sheet');
+  $('.dest').textContent = LABELS[id];
+  sheets.forEach((s,i) => {
+    s.style.width = (W + 2*S) + 'px';
+    $('.fill', s).style.width = W + 'px';
+    s.style.visibility = 'visible';
+    s.animate([
+      { transform:`translateX(${-(W+2*S)-260}px)`, easing:'cubic-bezier(.45,0,.25,1)' },
+      { transform:`translateX(${-S}px)`, offset:.38 },
+      { transform:`translateX(${-S}px)`, offset:.62, easing:'cubic-bezier(.75,0,.55,1)' },
+      { transform:`translateX(${W}px)` }
+    ], { duration:D, delay:i*STEP, fill:'both', easing:'linear' });
+  });
+  const last = STEP*(sheets.length-1);
+  setTimeout(() => show(id), (D + last)/2);
+  setTimeout(() => {
+    sheets.forEach(s => { s.getAnimations().forEach(a=>a.cancel()); s.style.visibility='hidden'; });
+    busy = false;
+  }, D + last + 80);
+}
+
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-go]');
+  if (b){ go(b.dataset.go); }
+});
+
+/* вкладки Вода / Суша, Корпус / Сила */
+function progTab(which){
+  const water = which === 'water';
+  $('#t-water').setAttribute('aria-selected', water);
+  $('#t-dry').setAttribute('aria-selected', !water);
+  $('#p-water').hidden = !water;
+  $('#p-dry').hidden = water;
+}
+function dryTab(which){
+  const core = which === 'core';
+  $('#t-core').setAttribute('aria-selected', core);
+  $('#t-str').setAttribute('aria-selected', !core);
+  $('#d-core').hidden = !core;
+  $('#d-str').hidden = core;
+}
+$('#t-water').addEventListener('click', () => progTab('water'));
+$('#t-dry').addEventListener('click', () => progTab('dry'));
+$('#t-core').addEventListener('click', () => dryTab('core'));
+$('#t-str').addEventListener('click', () => dryTab('str'));
+
+/* старт */
+const start = location.hash.replace('#','');
+show(PAGES.includes(start) ? start : 'home');
+addEventListener('hashchange', () => { const h=location.hash.replace('#',''); if (PAGES.includes(h)) go(h); });
+if (reduce) paintWater(0); else requestAnimationFrame(loop);
+</script>
+</body>
+</html>
