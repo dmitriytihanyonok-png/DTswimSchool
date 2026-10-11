@@ -245,6 +245,106 @@ footer{position:relative;z-index:2;text-align:center;padding:10px 20px 40px;colo
 /* ---------- swim transition (canvas) ---------- */
 #xfade{position:fixed;inset:0;width:100%;height:100%;z-index:100;pointer-events:none;display:none}
 
+/* ---------- extras ---------- */
+.next{display:flex;flex-wrap:wrap;align-items:center;gap:14px 26px;padding:16px 26px;margin-top:30px;max-width:800px;border-radius:999px}
+.n-l{display:flex;align-items:center;gap:14px}
+.pulse{flex:none;width:14px;height:14px;border-radius:50%;background:#43e08a;animation:pulse 1.8s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(67,224,138,.7)}70%{box-shadow:0 0 0 14px rgba(67,224,138,0)}100%{box-shadow:0 0 0 0 rgba(67,224,138,0)}}
+.n-l small{display:block;color:var(--aqua);font-weight:600;font-size:.82rem;line-height:1.3}
+.n-l b{font-family:var(--display);font-size:1rem}
+.n-c{font-family:var(--display);font-weight:700;color:var(--yellow);font-size:1rem}
+.n-r{margin-left:auto;font-weight:600;font-size:.9rem;padding:6px 14px;border-radius:999px;background:rgba(79,209,217,.18)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);margin:30px 0 80px;border-block:1px solid var(--line)}
+.stat{padding:28px 18px;border-right:1px solid var(--line)}
+.stat:last-child{border-right:0}
+.stat b{display:block;font-family:var(--display);font-weight:900;font-size:clamp(2rem,5vw,3.6rem);letter-spacing:-.04em;line-height:1}
+.stat b small{font-size:.38em;font-weight:500;margin-left:6px;color:var(--aqua);letter-spacing:0}
+.stat span{display:block;margin-top:10px;color:rgba(234,251,253,.82);font-size:.95rem}
+.first{margin-top:90px}
+.first .lead{margin-bottom:28px}
+.flow{list-style:none;counter-reset:f;display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.flow li{counter-increment:f;padding:26px 22px}
+.flow li::before{content:counter(f);display:grid;place-items:center;width:46px;height:46px;border-radius:50%;background:var(--yellow);color:var(--deep);font-family:var(--display);font-weight:900;margin-bottom:14px}
+.flow b{display:block;font-family:var(--display);font-size:1rem;margin-bottom:6px}
+.flow span{color:rgba(234,251,253,.84);font-size:.95rem}
+.tip{margin-top:60px;padding:32px 36px;display:flex;flex-wrap:wrap;gap:18px 40px;align-items:center;justify-content:space-between;border-radius:44px 14px 44px 14px}
+.tip h3{font-size:1.3rem;margin-bottom:8px;color:var(--yellow)}
+.tip p{font-size:1.18rem;max-width:58ch;transition:opacity .3s,transform .3s}
+.tip p.sw{opacity:0;transform:translateY(8px)}
+.calc{padding:28px;margin-top:22px;border-radius:26px}
+.calc h3{font-size:1.3rem;margin-bottom:10px}
+.calc>p{color:rgba(234,251,253,.84)}
+.rng{display:grid;gap:10px;margin:18px 0 6px;font-weight:600}
+.rng b{font-family:var(--display);color:var(--yellow)}
+input[type=range]{width:100%;accent-color:var(--yellow);height:6px}
+.inputs{display:flex;gap:14px;flex-wrap:wrap;margin:14px 0}
+.calc label,.d-form label{display:grid;gap:6px;font-weight:600;font-size:.88rem;color:var(--aqua)}
+.calc input[type=number],.d-form input,.d-form select{font:inherit;color:var(--foam);color-scheme:dark;background:rgba(234,251,253,.1);border:1.5px solid var(--line);border-radius:14px;padding:12px 14px;width:110px}
+.d-form input[type=date],.d-form select{width:auto;min-width:150px}
+select option{color:#03213A}
+.res{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:16px}
+.res div{padding:14px 16px;border-radius:16px;background:rgba(234,251,253,.08)}
+.res small{display:block;color:rgba(234,251,253,.72);font-size:.82rem}
+.res b{font-family:var(--display);font-size:1.2rem}
+.res .hl{background:var(--yellow);color:var(--deep)}
+.res .hl small{color:rgba(3,33,58,.78)}
+.sub-tabs button[aria-pressed="true"]{background:var(--foam);color:var(--deep);border-color:var(--foam)}
+.sec{font-size:clamp(1.3rem,3vw,1.9rem);margin:44px 0 18px}
+.tech-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.tech{padding:22px;border-top:6px solid var(--c);border-radius:20px}
+.tech h4{font-family:var(--display);font-size:1.05rem;margin-bottom:8px}
+.tech p{color:rgba(234,251,253,.86);font-size:.97rem}
+.diary{padding:clamp(22px,4vw,40px);margin-top:56px;border-radius:44px 14px 44px 14px}
+.d-head{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;align-items:flex-start}
+.d-head h3{font-size:clamp(1.4rem,3vw,2rem);margin-bottom:6px}
+.d-head p{color:rgba(234,251,253,.8);max-width:46ch}
+.lvl{padding:10px 20px;border-radius:999px;background:var(--yellow);color:var(--deep);font-family:var(--display);font-weight:700}
+.d-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:22px 0 16px}
+.d-stats div{padding:14px 16px;border-radius:16px;background:rgba(234,251,253,.08)}
+.d-stats small{display:block;color:rgba(234,251,253,.72);font-size:.82rem}
+.d-stats b{font-family:var(--display);font-size:1.3rem}
+.progress{height:14px;border-radius:8px;background:rgba(234,251,253,.12);overflow:hidden}
+.progress i{display:block;height:100%;width:0;border-radius:8px;background:repeating-linear-gradient(115deg,var(--aqua) 0 14px,#7fe3e8 14px 22px);transition:width .9s var(--ease)}
+#dNext{margin-top:8px;color:rgba(234,251,253,.8);font-size:.92rem}
+.d-form{display:flex;flex-wrap:wrap;gap:14px;align-items:end;margin:24px 0}
+.d-list{list-style:none;display:grid;gap:8px}
+.d-list li{display:flex;align-items:center;gap:14px;padding:10px 16px;border-radius:14px;background:rgba(234,251,253,.07)}
+.d-list li span:first-child{font-weight:600;color:var(--aqua);min-width:96px}
+.d-list button{margin-left:auto;width:30px;height:30px;border-radius:50%;background:rgba(240,72,62,.28);line-height:1}
+.empty-d{color:rgba(234,251,253,.6);padding:10px 4px}
+#toast{position:fixed;left:50%;bottom:30px;transform:translate(-50%,30px);opacity:0;z-index:120;pointer-events:none;
+  background:var(--yellow);color:var(--deep);font-weight:700;padding:14px 26px;border-radius:999px;box-shadow:0 12px 40px rgba(0,0,0,.4);transition:opacity .4s,transform .5s var(--ease);text-align:center}
+#toast.on{opacity:1;transform:translate(-50%,0)}
+button.slot{font:inherit;cursor:pointer;border:0}
+button.slot.am,button.slot.pm{color:var(--deep)}
+.slot.pick{outline:3px solid var(--foam);outline-offset:3px}
+.slot.pick .t::after{content:" ✓"}
+.row{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-top:24px}
+.row small{color:rgba(234,251,253,.7)}
+.faq-wrap{margin-top:70px}
+.faq-wrap h2{font-size:clamp(1.6rem,4vw,2.6rem);font-weight:900;margin-bottom:22px}
+.q{border-radius:20px;margin-bottom:10px;background:var(--panel);border:1px solid var(--line);padding:0 24px}
+.q summary{cursor:pointer;padding:18px 0;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:16px}
+.q summary::-webkit-details-marker{display:none}
+.q summary::after{content:"+";font-family:var(--display);color:var(--yellow);font-size:1.3rem;transition:transform .3s}
+.q[open] summary::after{transform:rotate(45deg)}
+.q p{padding:0 0 18px;color:rgba(234,251,253,.86)}
+footer{padding:30px 20px 50px}
+.foot{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 22px;margin-bottom:12px}
+.foot button,.foot a{color:rgba(234,251,253,.8);font-weight:500;text-decoration:none;padding:6px 4px}
+.foot button:hover,.foot a:hover{color:var(--yellow)}
+@media (max-width:980px){.flow{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:760px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .stat:nth-child(2){border-right:0}
+  .stat:nth-child(-n+2){border-bottom:1px solid var(--line)}
+  .flow{grid-template-columns:1fr}
+  .next{border-radius:30px}.n-r{margin-left:0}
+  .d-stats{grid-template-columns:1fr 1fr}
+  #toast{bottom:90px}
+  .tip{padding:26px}
+}
+
 /* ---------- responsive ---------- */
 @media (max-width:980px){
   .reason.a,.reason.b{grid-column:span 12}
@@ -289,7 +389,7 @@ footer{position:relative;z-index:2;text-align:center;padding:10px 20px 40px;colo
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
   <filter id="ripple" x="-5%" y="-10%" width="110%" height="125%">
     <feTurbulence id="turb" type="fractalNoise" baseFrequency="0.008 0.02" numOctaves="2" seed="4" result="n"/>
-    <feDisplacementMap in="SourceGraphic" in2="n" scale="12" xChannelSelector="R" yChannelSelector="G"/>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="7" xChannelSelector="R" yChannelSelector="G"/>
   </filter>
 </svg>
 
@@ -320,6 +420,14 @@ footer{position:relative;z-index:2;text-align:center;padding:10px 20px 40px;colo
         <button class="btn main" data-go="signup">Записаться на бесплатное занятие</button>
         <button class="btn ghost" data-go="schedule">Смотреть расписание</button>
       </div>
+      <div class="next panel r" id="nextCard" aria-live="off"></div>
+    </div>
+
+    <div class="stats">
+      <div class="stat r"><b><i data-count="6">6</i></b><span>тренировочных дней в неделю: с понедельника по субботу</span></div>
+      <div class="stat r"><b><i data-count="4">4</i><small>км</small></b><span>объём одной тренировки на воде</span></div>
+      <div class="stat r"><b>до <i data-count="4">4</i></b><span>человек в группе — тренер успевает за каждым</span></div>
+      <div class="stat r"><b><i data-count="3">3</i></b><span>тренера: два мастера спорта и КМС</span></div>
     </div>
 
     <div class="why">
@@ -352,6 +460,26 @@ footer{position:relative;z-index:2;text-align:center;padding:10px 20px 40px;colo
         </article>
       </div>
     </div>
+
+    <div class="first">
+      <h2 class="title r">Как пройдёт первое занятие</h2>
+      <p class="lead r">Оно бесплатное, так что рисковать нечем: просто приходите и попробуйте.</p>
+      <ol class="flow">
+        <li class="panel r"><b>Напишите нам</b><span>В Telegram: имя и удобный день из расписания.</span></li>
+        <li class="panel r"><b>Соберите сумку</b><span>Обычно берут плавки или купальник, шапочку, очки и полотенце.</span></li>
+        <li class="panel r"><b>Приходите в бассейн</b><span>Познакомитесь с тренером и попробуете тренировку в маленькой группе.</span></li>
+        <li class="panel r"><b>Решайте сами</b><span>Понравилось — выбираете группу или индивидуальные занятия. Нет — ничего не должны.</span></li>
+      </ol>
+      <div class="r" style="margin-top:28px"><button class="btn main" data-go="signup">Записаться на бесплатное занятие</button></div>
+    </div>
+
+    <aside class="tip panel r">
+      <div>
+        <h3>Совет дня</h3>
+        <p id="tipText"></p>
+      </div>
+      <button class="btn ghost" id="tipNext">Ещё совет <span id="tipN"></span></button>
+    </aside>
   </section>
 
   <!-- ===== SCHEDULE ===== -->
@@ -363,6 +491,10 @@ footer{position:relative;z-index:2;text-align:center;padding:10px 20px 40px;colo
       <div id="lanes"></div>
     </div>
     <p class="note r">В понедельник, среду и пятницу можно прийти и утром, и вечером. Во вторник и четверг — только вечером. В субботу — утренняя тренировка. В группе до 4 человек.</p>
+    <div class="row r">
+      <button class="btn main" id="icsBtn">Добавить все занятия в календарь</button>
+      <small>Нажмите на нужные занятия — в календарь попадут только они.</small>
+    </div>
   </section>
 
   <!-- ===== PROGRAMS ===== -->
@@ -381,6 +513,21 @@ footer{position:relative;z-index:2;text-align:center;padding:10px 20px 40px;colo
         <div class="bar-set" id="barset"></div>
         <div class="legend" id="legend"></div>
       </div>
+
+      <div class="calc panel" id="paceCalc">
+        <h3>Калькулятор темпа</h3>
+        <p>Введите, за сколько вы плывёте 100 м произвольным стилем, и узнайте ориентир по времени.</p>
+        <div class="inputs">
+          <label>минуты<input type="number" id="pcMin" min="0" max="10" value="1" inputmode="numeric"></label>
+          <label>секунды<input type="number" id="pcSec" min="0" max="59" value="45" inputmode="numeric"></label>
+        </div>
+        <div class="res" id="paceRes"></div>
+        <div class="legend" id="paceParts" style="margin-top:16px"></div>
+        <p style="margin-top:12px;font-size:.88rem;color:rgba(234,251,253,.65)">Расчёт при ровном темпе — это ориентир. Скорость на разных частях тренировки отличается.</p>
+      </div>
+
+      <h3 class="sec">Техника кроля: четыре ключа</h3>
+      <div class="tech-grid" id="techGrid"></div>
     </div>
 
     <div class="prog" id="p-dry" role="tabpanel" aria-labelledby="t-dry" hidden>
@@ -398,6 +545,23 @@ footer{position:relative;z-index:2;text-align:center;padding:10px 20px 40px;colo
         <div class="days" style="margin-bottom:18px"><i>Пн</i><i>Ср</i><i>Пт</i></div>
         <div class="ex-grid" id="strGrid"></div>
       </div>
+    </div>
+
+    <div class="diary panel r" id="diary">
+      <div class="d-head">
+        <div><h3>Дневник пловца</h3><p>Записывайте тренировки и растите по уровням. Записи хранятся только на вашем устройстве.</p></div>
+        <div class="lvl" id="dLevel"></div>
+      </div>
+      <div class="d-stats" id="dStats"></div>
+      <div class="progress"><i id="dBar"></i></div>
+      <p id="dNext"></p>
+      <div class="d-form">
+        <label>Дата<input type="date" id="dDate"></label>
+        <label>Где<select id="dType"><option value="water">Вода</option><option value="dry">Суша</option></select></label>
+        <label>Дистанция, км<input type="number" id="dKm" step="0.1" min="0" max="30" value="4" inputmode="decimal"></label>
+        <button class="btn main" id="dAdd">Записать тренировку</button>
+      </div>
+      <ul class="d-list" id="dList"></ul>
     </div>
   </section>
 
@@ -419,12 +583,25 @@ footer{position:relative;z-index:2;text-align:center;padding:10px 20px 40px;colo
       </article>
       <article class="price grp panel r">
         <div><h3>В группе</h3><p>От 1 до 4 человек.</p></div>
-        <div class="amount">35<small>BYN</small></div>
+        <div class="amount"><span data-p="group">35</span><small>BYN</small></div>
       </article>
       <article class="price ind panel r">
         <div><h3>Индивидуально</h3><p>Тренер только с вами.</p></div>
-        <div class="amount">50<small>BYN</small></div>
+        <div class="amount"><span data-p="ind">50</span><small>BYN</small></div>
       </article>
+    </div>
+    <div class="calc panel r" id="priceCalc">
+      <h3>Сколько выйдет в месяц</h3>
+      <div class="sub-tabs" style="margin:12px 0 0">
+        <button data-f="group" aria-pressed="true">В группе</button>
+        <button data-f="ind" aria-pressed="false">Индивидуально</button>
+      </div>
+      <label class="rng">Занятий в неделю: <b id="pcN">2</b><input type="range" id="pcR" min="1" max="6" value="2"></label>
+      <div class="res">
+        <div class="hl"><small>за месяц (4 недели)</small><b id="pcTotal"></b></div>
+        <div><small>одно занятие</small><b id="pcOne"></b></div>
+        <div><small>первое занятие</small><b>0 BYN</b></div>
+      </div>
     </div>
     <div class="r" style="margin-top:34px"><button class="btn main" data-go="signup">Записаться</button></div>
   </section>
@@ -447,13 +624,29 @@ footer{position:relative;z-index:2;text-align:center;padding:10px 20px 40px;colo
         <li><div><b>Приходите в бассейн</b><span>Первое занятие бесплатно.</span></div></li>
       </ol>
     </div>
+
+    <div class="faq-wrap">
+      <h2 class="r">Частые вопросы</h2>
+      <div id="faq"></div>
+    </div>
   </section>
 
 </main>
 
-<footer>DTswim — школа плавания Дмитрия Тиханенка</footer>
+<footer>
+  <nav class="foot" aria-label="Нижнее меню">
+    <button data-go="schedule">Расписание</button>
+    <button data-go="programs">Программы</button>
+    <button data-go="coaches">Тренеры</button>
+    <button data-go="prices">Цены</button>
+    <button data-go="signup">Запись</button>
+    <a href="https://t.me/ordersecurity" target="_blank" rel="noopener">Telegram</a>
+  </nav>
+  DTswim — школа плавания Дмитрия Тиханенка
+</footer>
 
 <canvas id="xfade" aria-hidden="true"></canvas>
+<div id="toast" role="status" aria-live="polite"></div>
 
 <script>
 /* ============ ДАННЫЕ: редактируйте здесь ============ */
@@ -562,24 +755,61 @@ const CORE = [
     poses:[ { head:[34,32], lines:[[[38,44],[50,80]],[[50,80],[70,62],[88,44]],[[40,50],[66,54]]] } ] }
 ];
 
+const PRICES = { group:35, ind:50 };   // BYN за занятие
+const ACC   = {1:'в понедельник',2:'во вторник',3:'в среду',4:'в четверг',5:'в пятницу',6:'в субботу'};
+const BYDAY = {1:'MO',2:'TU',3:'WE',4:'TH',5:'FR',6:'SA'};
+const LEVELS = [
+  { km:0,   name:'Новичок' }, { km:10, name:'Малёк' }, { km:25, name:'Дельфин' },
+  { km:50,  name:'Акула' },   { km:100, name:'Легенда DTswim' }
+];
+const TIPS = [
+  'Пейте воду до и после тренировки: в бассейне жажда почти не чувствуется, но жидкость тело теряет.',
+  'Перед заплывом разомните плечи: круги руками вперёд и назад, по 10 раз в каждую сторону.',
+  'Выдыхайте в воду полностью — тогда вдох в сторону получается быстрым и спокойным.',
+  'Смотрите вниз, а не вперёд: голова в одной линии с телом, и ноги поднимутся сами.',
+  'Считайте гребки на 25 метров. Чем меньше гребков при том же темпе, тем эффективнее техника.',
+  'После тренировки растяните плечи и грудь — так мышцы быстрее восстанавливаются.',
+  'Ровный темп лучше рывков: старайтесь держать одно и то же время на каждом отрезке.',
+  'Ноги в кроле работают от бедра, а не от колена. Движения небольшие, носки вытянуты.',
+  'Восстановление — часть тренировки. Высыпайтесь, особенно перед утренними занятиями.',
+  'За 1,5–2 часа до тренировки лучше лёгкий перекус, а не плотный обед.',
+  'После толчка от бортика скользите вытянувшись: это самые «бесплатные» метры.',
+  'Записывайте результаты в дневник: прогресс заметен только на дистанции.'
+];
+const TECH = [
+  { c:'#4FD1D9', h:'Положение тела', p:'Тело вытянуто горизонтально, взгляд вниз, бёдра у поверхности. Чем ровнее линия, тем меньше сопротивление воды.' },
+  { c:'#FFC531', h:'Дыхание', p:'Выдох в воду идёт постоянно, вдох — поворотом головы в сторону. Одно ухо остаётся в воде.' },
+  { c:'#F0483E', h:'Гребок', p:'Держите высокий локоть: кисть заходит вперёд, ладонь тянет воду к бедру. Доводите гребок до конца.' },
+  { c:'#9be7ec', h:'Работа ног', p:'Ноги работают от бедра с небольшой амплитудой. Они удерживают тело у поверхности, а не толкают вперёд.' }
+];
+const FAQ = [
+  { q:'Сколько стоит первое занятие?', a:`Первое занятие бесплатное. Дальше — ${PRICES.group} BYN в группе (1–4 человека) или ${PRICES.ind} BYN на индивидуальной тренировке.` },
+  { q:'Когда проходят тренировки?', a:'Пн, ср, пт — утром 8:00–9:45 и вечером 15:00–16:45. Вт и чт — вечером 15:00–16:45. В субботу — утром 8:00–10:00.' },
+  { q:'Сколько человек в группе?', a:'От 1 до 4 человек. Тренер видит технику каждого и успевает её поправить.' },
+  { q:'Как узнать, есть ли свободные места?', a:'В расписании у каждого занятия показано, сколько мест свободно.' },
+  { q:'Что делают на суше?', a:'По понедельникам и пятницам — силовая на верх, по средам — на низ, по вторникам и четвергам — корпус и пресс. Все упражнения со схемами в разделе «Программы».' },
+  { q:'Что взять с собой?', a:'Обычно берут плавки или купальник, шапочку, очки и полотенце. Остальное подскажет тренер.' },
+  { q:'Как записаться?', a:'Напишите нам в Telegram: t.me/ordersecurity. Укажите имя и удобный день из расписания.' }
+];
+
 /* ============ РЕНДЕР ============ */
 const $ = (s, r=document) => r.querySelector(s);
 const $$ = (s, r=document) => [...r.querySelectorAll(s)];
 const dow = new Date().getDay();
 
-function slotHTML(sl, kind){
+function slotHTML(sl, kind, dw){
   if (!sl) return '<div class="slot none">—</div>';
   const free = Math.max(0, CAPACITY - sl.taken);
   const dots = Array.from({length:CAPACITY}, (_,i) => `<i class="${i<free?'':'x'}"></i>`).join('');
-  return `<div class="slot ${kind}${free===0?' full':''}">
+  return `<button type="button" class="slot ${kind}${free===0?' full':''}" data-dow="${dw}" data-kind="${kind}" aria-pressed="false">
     <span class="t">${sl.t}</span>
     <span class="free"><span class="dots">${dots}</span>${free>0?`свободно ${free} из ${CAPACITY}`:'мест нет'}</span>
-  </div>`;
+  </button>`;
 }
 $('#lanes').innerHTML = SCHEDULE.map(d => `
   <div class="lane${d.dow===dow?' today':''}">
     <div class="day"><span class="full">${d.full}</span><span class="short">${d.short}</span></div>
-    ${slotHTML(d.am,'am')}${slotHTML(d.pm,'pm')}
+    ${slotHTML(d.am,'am',d.dow)}${slotHTML(d.pm,'pm',d.dow)}
   </div>`).join('');
 
 $('#barset').innerHTML = WATER.map((w,k) =>
@@ -679,6 +909,7 @@ function show(id, base){
   void page.offsetWidth;
   page.classList.add('in');
   current = id;
+  onShow(id);
   try { history.replaceState(null,'', id==='home' ? location.pathname : '#'+id); } catch(e){}
   document.title = id==='home' ? 'DTswim — школа плавания Дмитрия Тиханенка' : $('#'+id+' .title').textContent.trim() + ' — DTswim';
 }
@@ -898,6 +1129,228 @@ $('#t-water').addEventListener('click', () => progTab('water'));
 $('#t-dry').addEventListener('click', () => progTab('dry'));
 $('#t-core').addEventListener('click', () => dryTab('core'));
 $('#t-str').addEventListener('click', () => dryTab('str'));
+
+/* ============ ДОПОЛНИТЕЛЬНЫЕ ФУНКЦИИ ============ */
+const pad2 = n => String(n).padStart(2,'0');
+const ymd = d => `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`;
+const parseT = t => {
+  const m = x => { const [h,mi] = x.split(':').map(Number); return h*60+mi; };
+  const [a,b] = t.split('–'); return [m(a), m(b)];
+};
+const capFirst = x => x.charAt(0).toUpperCase() + x.slice(1);
+
+function toast(msg){
+  const t = $('#toast'); t.textContent = msg; t.classList.add('on');
+  clearTimeout(toast.h); toast.h = setTimeout(() => t.classList.remove('on'), 2800);
+}
+function onShow(id){
+  if (id==='home'){ countUp(); updateNext(true); }
+  if (id==='programs'){ renderDiary(); }
+}
+
+/* --- цифры на главной --- */
+function countUp(){
+  $$('[data-count]').forEach(el => {
+    const to = +el.dataset.count;
+    if (reduce){ el.textContent = to; return; }
+    el.textContent = 0;
+    const t0 = performance.now() + 450;
+    const tick = now => {
+      const k = clamp01((now - t0)/1100);
+      el.textContent = Math.round(to*easeIO(k));
+      if (k < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  });
+}
+
+/* --- ближайшая тренировка --- */
+function nextTraining(){
+  const now = new Date(); let best = null;
+  for (let off=0; off<8; off++){
+    const d = new Date(now.getFullYear(), now.getMonth(), now.getDate()+off);
+    const day = SCHEDULE.find(x => x.dow === d.getDay()); if (!day) continue;
+    for (const kind of ['am','pm']){
+      const sl = day[kind]; if (!sl) continue;
+      const [a,b] = parseT(sl.t);
+      const st = new Date(d.getFullYear(), d.getMonth(), d.getDate(), 0, a);
+      const en = new Date(d.getFullYear(), d.getMonth(), d.getDate(), 0, b);
+      if (en <= now) continue;
+      if (!best || st < best.st) best = { st, en, day, sl, off };
+    }
+  }
+  return best;
+}
+function fmtLeft(ms){
+  const s = Math.floor(ms/1000), d = Math.floor(s/86400), h = Math.floor(s%86400/3600), m = Math.floor(s%3600/60), sec = s%60;
+  if (d > 0) return `${d} д ${h} ч ${m} мин`;
+  if (h > 0) return `${h} ч ${m} мин ${sec} с`;
+  return `${m} мин ${sec} с`;
+}
+let nextKey = '';
+function updateNext(force){
+  const el = $('#nextCard'); if (!el) return;
+  if (current !== 'home' && !force) return;
+  const n = nextTraining(); if (!n) return;
+  const now = new Date(), live = n.st <= now;
+  const key = n.st.getTime() + (live?'L':'W');
+  if (key !== nextKey || force && !$('#nCount')){
+    nextKey = key;
+    const when = n.off===0 ? 'сегодня' : (n.off===1 ? 'завтра' : ACC[n.day.dow]);
+    const free = Math.max(0, CAPACITY - n.sl.taken);
+    el.innerHTML = `<div class="n-l"><span class="pulse"></span><div><small>${live?'Тренировка идёт сейчас':'Ближайшая тренировка'}</small><b>${capFirst(when)}, ${n.sl.t}</b></div></div>
+      <div class="n-c" id="nCount"></div><div class="n-r">свободно ${free} из ${CAPACITY}</div>`;
+  }
+  $('#nCount').textContent = live ? 'до конца: ' + fmtLeft(n.en - now) : 'через ' + fmtLeft(n.st - now);
+}
+setInterval(updateNext, 1000);
+
+/* --- совет дня --- */
+let tipI = Math.floor(Date.now()/86400000) % TIPS.length;
+function showTip(anim){
+  const p = $('#tipText');
+  const set = () => { p.textContent = TIPS[tipI]; $('#tipN').textContent = `${tipI+1}/${TIPS.length}`; p.classList.remove('sw'); };
+  if (anim && !reduce){ p.classList.add('sw'); setTimeout(set, 280); } else set();
+}
+$('#tipNext').addEventListener('click', () => { tipI = (tipI+1) % TIPS.length; showTip(true); });
+showTip(false);
+
+/* --- расписание в календарь (.ics) --- */
+function updateIcsBtn(){
+  const n = $$('.slot.pick').length;
+  $('#icsBtn').textContent = n ? `Добавить выбранные в календарь (${n})` : 'Добавить все занятия в календарь';
+}
+$('#lanes').addEventListener('click', e => {
+  const b = e.target.closest('button.slot'); if (!b) return;
+  const on = b.classList.toggle('pick'); b.setAttribute('aria-pressed', on); updateIcsBtn();
+});
+$('#icsBtn').addEventListener('click', () => {
+  const picks = $$('.slot.pick').map(b => b.dataset.dow + b.dataset.kind);
+  const now = new Date();
+  const fmtD = d => `${d.getFullYear()}${pad2(d.getMonth()+1)}${pad2(d.getDate())}T${pad2(d.getHours())}${pad2(d.getMinutes())}00`;
+  const stamp = new Date().toISOString().replace(/[-:]/g,'').split('.')[0] + 'Z';
+  const L = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//DTswim//RU','CALSCALE:GREGORIAN'];
+  let cnt = 0;
+  SCHEDULE.forEach(day => ['am','pm'].forEach(k => {
+    const sl = day[k]; if (!sl) return;
+    if (picks.length && !picks.includes(day.dow + k)) return;
+    const [a,b] = parseT(sl.t);
+    const d = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    while (d.getDay() !== day.dow) d.setDate(d.getDate()+1);
+    const st = new Date(d.getFullYear(), d.getMonth(), d.getDate(), 0, a);
+    const en = new Date(d.getFullYear(), d.getMonth(), d.getDate(), 0, b);
+    L.push('BEGIN:VEVENT', `UID:dtswim-${day.dow}-${k}@dtswim`, `DTSTAMP:${stamp}`,
+      `DTSTART:${fmtD(st)}`, `DTEND:${fmtD(en)}`, `RRULE:FREQ=WEEKLY;BYDAY=${BYDAY[day.dow]}`,
+      'SUMMARY:Тренировка DTswim', 'DESCRIPTION:Школа плавания DTswim. Запись: https://t.me/ordersecurity', 'END:VEVENT');
+    cnt++;
+  }));
+  L.push('END:VCALENDAR');
+  const blob = new Blob([L.join('\r\n')], { type:'text/calendar;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = 'dtswim-raspisanie.ics';
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+  toast(`Файл календаря скачан: занятий ${cnt}`);
+});
+
+/* --- калькулятор цены --- */
+let pcFmt = 'group';
+function calcPrice(){
+  const n = +$('#pcR').value, one = PRICES[pcFmt];
+  $('#pcN').textContent = n;
+  $('#pcOne').textContent = one + ' BYN';
+  $('#pcTotal').textContent = (one*n*4) + ' BYN';
+}
+$$('#priceCalc [data-f]').forEach(b => b.addEventListener('click', () => {
+  pcFmt = b.dataset.f;
+  $$('#priceCalc [data-f]').forEach(x => x.setAttribute('aria-pressed', x===b));
+  calcPrice();
+}));
+$('#pcR').addEventListener('input', calcPrice);
+$$('[data-p]').forEach(e => e.textContent = PRICES[e.dataset.p]);
+calcPrice();
+
+/* --- калькулятор темпа --- */
+const fmtTime = sec => {
+  sec = Math.round(sec);
+  const h = Math.floor(sec/3600), m = Math.floor(sec%3600/60), s = sec%60;
+  return h ? `${h}:${pad2(m)}:${pad2(s)}` : `${m}:${pad2(s)}`;
+};
+function calcPace(){
+  const pace = (+$('#pcMin').value||0)*60 + (+$('#pcSec').value||0);
+  if (pace <= 0){ $('#paceRes').innerHTML = ''; $('#paceParts').innerHTML = ''; return; }
+  const row = (lab, m, hl) => `<div class="${hl?'hl':''}"><small>${lab}</small><b>${fmtTime(pace*m/100)}</b></div>`;
+  $('#paceRes').innerHTML = row('50 м',50) + row('400 м',400) + row('1 км',1000) + row('4 км — вся тренировка',4000,true);
+  $('#paceParts').innerHTML = WATER.map(w => `<div style="--c:${w.c}"><b>${w.name}</b><span>${w.m} м ≈ ${fmtTime(pace*w.m/100)}</span></div>`).join('');
+}
+$('#pcMin').addEventListener('input', calcPace);
+$('#pcSec').addEventListener('input', calcPace);
+calcPace();
+
+/* --- техника и FAQ --- */
+$('#techGrid').innerHTML = TECH.map(t => `<article class="tech panel" style="--c:${t.c}"><h4>${t.h}</h4><p>${t.p}</p></article>`).join('');
+$('#faq').innerHTML = FAQ.map(f => `<details class="q r"><summary>${f.q}</summary><p>${f.a}</p></details>`).join('');
+
+/* --- дневник пловца --- */
+const DKEY = 'dtswim_diary_v1';
+let diary = [];
+try { diary = JSON.parse(localStorage.getItem(DKEY) || '[]'); } catch(e){ diary = []; }
+const dSave = () => { try { localStorage.setItem(DKEY, JSON.stringify(diary)); } catch(e){} };
+const mondayKey = str => {
+  const [y,m,d] = str.split('-').map(Number);
+  const dt = new Date(y, m-1, d); dt.setDate(dt.getDate() - ((dt.getDay()+6)%7));
+  return ymd(dt);
+};
+const levelOf = km => LEVELS.reduce((a,l) => km >= l.km ? l : a, LEVELS[0]);
+function diaryStats(){
+  const km = diary.reduce((a,e) => a + (e.type==='water' ? e.km : 0), 0);
+  const weeks = new Set(diary.map(e => mondayKey(e.date)));
+  let w = new Date(); w.setDate(w.getDate() - ((w.getDay()+6)%7));
+  if (!weeks.has(ymd(w))) w.setDate(w.getDate()-7);
+  let streak = 0; while (weeks.has(ymd(w))){ streak++; w.setDate(w.getDate()-7); }
+  return { km, sessions: diary.length, streak };
+}
+function renderDiary(){
+  const st = diaryStats(), lv = levelOf(st.km);
+  const nx = LEVELS[LEVELS.indexOf(lv)+1];
+  $('#dLevel').textContent = lv.name;
+  $('#dStats').innerHTML =
+    `<div><small>проплыто</small><b>${(Math.round(st.km*10)/10).toString().replace('.',',')} км</b></div>` +
+    `<div><small>тренировок</small><b>${st.sessions}</b></div>` +
+    `<div><small>недель подряд</small><b>${st.streak}</b></div>`;
+  const pct = nx ? (st.km - lv.km)/(nx.km - lv.km)*100 : 100;
+  requestAnimationFrame(() => { $('#dBar').style.width = clamp01(pct/100)*100 + '%'; });
+  $('#dNext').textContent = nx
+    ? `До уровня «${nx.name}»: ${(Math.round((nx.km - st.km)*10)/10).toString().replace('.',',')} км`
+    : 'Максимальный уровень — вы легенда!';
+  const list = [...diary].sort((a,b) => b.date.localeCompare(a.date) || b.id - a.id).slice(0,8);
+  $('#dList').innerHTML = list.length ? list.map(e => {
+    const [y,m,d] = e.date.split('-').map(Number);
+    const ds = new Date(y,m-1,d).toLocaleDateString('ru-RU',{day:'numeric',month:'long'});
+    const what = e.type==='water' ? `Вода · ${String(e.km).replace('.',',')} км` : 'Суша';
+    return `<li><span>${ds}</span><span>${what}</span><button type="button" data-del="${e.id}" aria-label="Удалить запись">×</button></li>`;
+  }).join('') : '<li class="empty-d">Пока пусто. Запишите первую тренировку — и начнётся ваш путь.</li>';
+}
+$('#dDate').value = ymd(new Date());
+$('#dType').addEventListener('change', () => {
+  const dry = $('#dType').value === 'dry';
+  $('#dKm').disabled = dry; if (dry) $('#dKm').value = 0; else $('#dKm').value = 4;
+});
+$('#dAdd').addEventListener('click', () => {
+  const type = $('#dType').value, date = $('#dDate').value || ymd(new Date());
+  let km = type==='water' ? parseFloat(String($('#dKm').value).replace(',','.')) : 0;
+  if (isNaN(km) || km < 0 || km > 30){ toast('Проверьте дистанцию: от 0 до 30 км'); return; }
+  km = Math.round(km*10)/10;
+  const before = levelOf(diaryStats().km).name;
+  diary.push({ id: Date.now(), date, type, km }); dSave(); renderDiary();
+  const after = levelOf(diaryStats().km).name;
+  toast(after !== before ? `Новый уровень: ${after}!` : 'Тренировка записана');
+});
+$('#dList').addEventListener('click', e => {
+  const b = e.target.closest('[data-del]'); if (!b) return;
+  diary = diary.filter(x => String(x.id) !== b.dataset.del); dSave(); renderDiary();
+});
+renderDiary();
 
 /* старт */
 const start = location.hash.replace('#','');
