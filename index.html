@@ -74,7 +74,7 @@ h2.title{font-size:clamp(2rem,5.4vw,4rem);font-weight:900;margin-bottom:12px}
 .rope.thin{height:5px;margin:0;opacity:.5}
 
 .r{opacity:0}
-.page.in .r{animation:rise .85s var(--ease) both;animation-delay:calc(var(--i,0)*80ms + 120ms)}
+.page.in .r{animation:rise .85s var(--ease) both;animation-delay:calc(var(--i,0)*80ms + var(--base,120ms))}
 @keyframes rise{from{opacity:0;transform:translateY(34px) scale(.985)}to{opacity:1;transform:none}}
 
 .panel{background:var(--panel);border:1px solid var(--line);border-radius:24px;
@@ -179,13 +179,6 @@ h2.title{font-size:clamp(2rem,5.4vw,4rem);font-weight:900;margin-bottom:12px}
 .sub-tabs{display:inline-flex;gap:8px;margin-bottom:22px;flex-wrap:wrap}
 .sub-tabs button{padding:10px 24px;border-radius:999px;border:1.5px solid var(--aqua);font-weight:600;transition:background .3s,color .3s}
 .sub-tabs button[aria-selected="true"]{background:var(--foam);color:var(--deep);border-color:var(--foam)}
-.shot{position:relative;border-radius:30px 30px 30px 90px;overflow:hidden;min-height:240px;border:1px solid var(--line);margin-bottom:26px;background:var(--deep)}
-.shot img{display:none;width:100%;max-height:540px;object-fit:cover}
-.shot.has img{display:block}
-.shot .ph{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:20px;font-weight:500;color:rgba(234,251,253,.8);
-  background:repeating-linear-gradient(180deg,transparent 0 56px,rgba(255,255,255,.16) 56px 59px),linear-gradient(135deg,var(--pool),var(--deep))}
-.shot.has .ph{display:none}
-.shot figcaption{position:absolute;left:20px;bottom:18px;background:rgba(3,33,58,.82);padding:8px 18px;border-radius:999px;font-weight:600;font-size:.95rem}
 .ex-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px}
 .ex{padding:22px;display:flex;flex-direction:column;gap:12px;border-radius:26px}
 .ex:nth-child(3n+2){border-radius:26px 26px 26px 70px}
@@ -249,27 +242,8 @@ h2.title{font-size:clamp(2rem,5.4vw,4rem);font-weight:900;margin-bottom:12px}
 
 footer{position:relative;z-index:2;text-align:center;padding:10px 20px 40px;color:rgba(234,251,253,.55);font-size:.9rem}
 
-/* ---------- swim transition ---------- */
-.sheet{position:fixed;left:0;top:0;height:100%;display:flex;z-index:100;pointer-events:none;visibility:hidden;will-change:transform}
-.sheet .fill{flex:none;position:relative;height:100%;background-color:var(--c);margin:0 -1px}
-.sheet.lanes .fill{background-image:repeating-linear-gradient(180deg,transparent 0,transparent calc(100% / 6 - 3px),rgba(255,255,255,.38) calc(100% / 6 - 3px),rgba(255,255,255,.38) calc(100% / 6))}
-.wv{flex:none;width:120px;height:100%;background:var(--c);
-  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='400' viewBox='0 0 120 400'%3E%3Cpath d='M0 0H64Q8 100 64 200T64 400H0Z'/%3E%3C/svg%3E") 0 0/120px 400px repeat-y;
-          mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='400' viewBox='0 0 120 400'%3E%3Cpath d='M0 0H64Q8 100 64 200T64 400H0Z'/%3E%3C/svg%3E") 0 0/120px 400px repeat-y;
-  animation:driftY 1.1s linear infinite}
-.wv.trail{transform:scaleX(-1);animation-direction:reverse}
-@keyframes driftY{to{-webkit-mask-position:0 400px;mask-position:0 400px}}
-.dest{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:0 20px;
-  font-family:var(--display);font-weight:900;font-size:clamp(2.2rem,9vw,6.5rem);letter-spacing:-.04em;color:var(--foam)}
-.swimmer{position:absolute;width:150px;height:46px;overflow:visible;
-  right:calc(var(--lead) * -1 - 10px);top:calc(var(--lane) * 100% / 6 + 100% / 12 - 23px)}
-.swimmer .arm,.swimmer .leg{transform-box:view-box}
-.swimmer .arm.a{transform-origin:100px 17px;animation:stroke .6s ease-in-out infinite}
-.swimmer .arm.b{transform-origin:100px 29px;animation:stroke .6s ease-in-out infinite}
-.swimmer .leg.l1{transform-origin:56px 21px;animation:kick .22s ease-in-out infinite alternate}
-.swimmer .leg.l2{transform-origin:56px 26px;animation:kick .22s ease-in-out infinite alternate-reverse}
-@keyframes stroke{0%,100%{transform:rotate(-65deg)}50%{transform:rotate(55deg)}}
-@keyframes kick{from{transform:rotate(-14deg)}to{transform:rotate(14deg)}}
+/* ---------- swim transition (canvas) ---------- */
+#xfade{position:fixed;inset:0;width:100%;height:100%;z-index:100;pointer-events:none;display:none}
 
 /* ---------- responsive ---------- */
 @media (max-width:980px){
@@ -295,7 +269,7 @@ footer{position:relative;z-index:2;text-align:center;padding:10px 20px 40px;colo
   .sched-head,.lane{grid-template-columns:52px 1fr 1fr;gap:8px}
   .day .full{display:none}.day .short{display:inline}
   .lane.today .day::after{display:none}
-  .slot{padding:10px 6px}.slot .t{font-size:.74rem}.slot .free{font-size:.66rem;gap:4px}.slot .dots i{width:7px;height:7px}.swimmer{width:112px!important;height:34px!important}.dest{font-size:clamp(2rem,11vw,4rem)!important}
+  .slot{padding:10px 6px}.slot .t{font-size:.74rem}.slot .free{font-size:.66rem;gap:4px}.slot .dots i{width:7px;height:7px}
   .sched{padding:10px 16px 18px}
   .price.grp,.price.ind{grid-column:span 12}
   .reason.f{border-radius:30px}
@@ -401,11 +375,6 @@ footer{position:relative;z-index:2;text-align:center;padding:10px 20px 40px;colo
     </div>
 
     <div class="prog r" id="p-water" role="tabpanel" aria-labelledby="t-water">
-      <figure class="shot" data-img="water">
-        <img alt="Тренировка на воде">
-        <div class="ph">Здесь появится фото тренировки на воде</div>
-        <figcaption>Вода · произвольный стиль · 4 км</figcaption>
-      </figure>
       <div class="water-card panel">
         <h3>Вода: произвольный стиль, 4 км</h3>
         <p>Объём одной тренировки — 4 км. Пример того, как он распределяется:</p>
@@ -422,11 +391,6 @@ footer{position:relative;z-index:2;text-align:center;padding:10px 20px 40px;colo
 
       <div id="d-core">
         <div class="days" style="margin-bottom:18px"><i>Вт</i><i>Чт</i></div>
-        <figure class="shot" data-img="core">
-          <img alt="Упражнения на корпус">
-          <div class="ph">Здесь появится картинка с упражнениями на корпус</div>
-          <figcaption>Суша · корпус и пресс</figcaption>
-        </figure>
         <div class="ex-grid" id="coreGrid"></div>
       </div>
 
@@ -489,7 +453,7 @@ footer{position:relative;z-index:2;text-align:center;padding:10px 20px 40px;colo
 
 <footer>DTswim — школа плавания Дмитрия Тиханенка</footer>
 
-<div id="sheets" aria-hidden="true"></div>
+<canvas id="xfade" aria-hidden="true"></canvas>
 
 <script>
 /* ============ ДАННЫЕ: редактируйте здесь ============ */
@@ -503,9 +467,6 @@ const SCHEDULE = [
   { dow:5, full:'Пятница',     short:'Пт', am:{t:'8:00–9:45', taken:0},  pm:{t:'15:00–16:45', taken:0} },
   { dow:6, full:'Суббота',     short:'Сб', am:{t:'8:00–10:00', taken:0}, pm:null }
 ];
-
-// Фото: имя файла рядом с index.html (или ссылка / data:-адрес). Пока файла нет — показывается заглушка.
-const IMAGES = { water:'water.jpg', core:'core.jpg' };
 
 // Пример структуры водной тренировки (сумма = 4000 м)
 const WATER = [
@@ -660,14 +621,6 @@ const exCard = (e,i,numbered) => `
 $('#strGrid').innerHTML  = STRENGTH.map((e,i) => exCard(e,i,true)).join('');
 $('#coreGrid').innerHTML = CORE.map((e,i) => exCard(e,i,false)).join('');
 
-/* фото */
-$$('.shot').forEach(f => {
-  const src = IMAGES[f.dataset.img]; if (!src) return;
-  const im = $('img', f);
-  im.onload = () => f.classList.add('has');
-  im.src = src;
-});
-
 /* ============ ПОДВОДНЫЙ ФОН (каустика) ============ */
 const cv = $('#water'), cx = cv.getContext('2d');
 let CW, CH, img;
@@ -712,32 +665,7 @@ const PAGES = ['home','schedule','programs','coaches','prices','signup'];
 const LABELS = { home:'DTswim', schedule:'Расписание', programs:'Программы', coaches:'Тренеры', prices:'Цены', signup:'Запись' };
 let current = null, busy = false;
 
-/* слои перехода: пловцы на передней кромке волны */
-const CAPS = ['#F0483E','#FFC531','#4FD1D9','#ffffff','#F0483E','#FFC531'];
-const LEADS = [70,190,20,130,100,220];
-function swimmerSVG(lane){
-  const cap = CAPS[lane], ph = (lane*.17).toFixed(2);
-  return `<svg class="swimmer" style="--lane:${lane};--lead:${LEADS[lane]}px" viewBox="0 0 150 46" aria-hidden="true">
-    <ellipse cx="22" cy="23" rx="24" ry="9" fill="rgba(255,255,255,.6)"/>
-    <circle cx="4" cy="15" r="3" fill="rgba(255,255,255,.75)"/><circle cx="2" cy="31" r="2.5" fill="rgba(255,255,255,.75)"/>
-    <g class="leg l1"><rect x="30" y="19" width="26" height="3.6" rx="1.8" fill="#ffe3c4"/></g>
-    <g class="leg l2"><rect x="30" y="24" width="26" height="3.6" rx="1.8" fill="#ffe3c4"/></g>
-    <ellipse cx="82" cy="23" rx="32" ry="8" fill="#ffe3c4"/>
-    <g class="arm a" style="animation-delay:-${ph}s"><path d="M100 17H138" stroke="#ffe3c4" stroke-width="4.5" stroke-linecap="round"/></g>
-    <g class="arm b" style="animation-delay:-${(+ph+.3).toFixed(2)}s"><path d="M100 29H138" stroke="#ffe3c4" stroke-width="4.5" stroke-linecap="round"/></g>
-    <circle cx="116" cy="23" r="8.5" fill="${cap}"/>
-  </svg>`;
-}
-const SHEET_COLORS = ['#EAFBFD','#4FD1D9','#0B5C86','#03213A'];
-$('#sheets').innerHTML = SHEET_COLORS.map((c,i) => `
-  <div class="sheet${i===3?' lanes':''}" style="--c:${c}">
-    <i class="wv trail"></i>
-    <div class="fill">${i===3?'<div class="dest"></div>':''}</div>
-    <i class="wv lead"></i>
-    ${i===0 ? [0,1,2,3,4,5].map(swimmerSVG).join('') : ''}
-  </div>`).join('');
-
-function show(id){
+function show(id, base){
   $$('.page').forEach(p => { p.hidden = p.id !== id; p.classList.remove('in'); });
   $$('[data-go]').forEach(b => {
     if (b.classList.contains('tab') || b.classList.contains('brand')){
@@ -745,6 +673,7 @@ function show(id){
     }
   });
   const page = $('#'+id);
+  page.style.setProperty('--base', (base===undefined ? 120 : base) + 'ms');
   $$('.r', page).forEach((el,i) => el.style.setProperty('--i', i));
   window.scrollTo(0,0);
   void page.offsetWidth;
@@ -754,30 +683,195 @@ function show(id){
   document.title = id==='home' ? 'DTswim — школа плавания Дмитрия Тиханенка' : $('#'+id+' .title').textContent.trim() + ' — DTswim';
 }
 
+/* ---------- Переход: волна, пловцы, подводный мир ---------- */
+const xc = $('#xfade'), xx = xc.getContext('2d');
+const clamp01 = v => Math.max(0, Math.min(1, v));
+const easeIO = t => t<.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2;
+const fract = v => v - Math.floor(v);
+const hash = n => fract(Math.sin(n*127.1 + 311.7)*43758.5453);
+const INSET  = [0, 46, 92, 138];
+const LAYERC = ['#EAFBFD', '#7fe3e8', '#1590b8', '#06324F'];
+const CAPS   = ['#F0483E','#FFC531','#4FD1D9','#ffffff','#F0483E','#FFC531'];
+const SPREAD = [.92,-.28,-.78,.58,-.96,.32];
+
+function edgeX(base, y, k, time){
+  const ph = k*.8;
+  return base + 16*Math.sin(y*.013 + time*5.2 + ph) + 9*Math.sin(y*.031 - time*7.3 + ph*1.7) + 5*Math.sin(y*.071 + time*11 + ph*2.3);
+}
+function layerPath(c, H, xa, xb, k, time){
+  const ins = INSET[k], step = 8;
+  c.beginPath();
+  for (let y=-8; y<=H+8; y+=step){ const x = edgeX(xb-ins, y, k, time); y===-8 ? c.moveTo(x,y) : c.lineTo(x,y); }
+  for (let y=H+8; y>=-8; y-=step){ c.lineTo(edgeX(xa+ins, y, k+.5, time), y); }
+  c.closePath();
+}
+
+function drawSwimmer(c, x, y, time, i, sc, alpha){
+  const ph = time*7.2 + i*1.7;
+  c.save(); c.translate(x,y); c.scale(sc,sc); c.globalAlpha = alpha;
+  // след
+  const g = c.createLinearGradient(-210,0,-10,0);
+  g.addColorStop(0,'rgba(255,255,255,0)'); g.addColorStop(1,'rgba(255,255,255,.42)');
+  c.fillStyle = g; c.beginPath(); c.moveTo(-8,0); c.lineTo(-210,-38); c.lineTo(-210,38); c.closePath(); c.fill();
+  for (let k=0; k<12; k++){
+    const hx = -22 - k*16 - ((time*80 + k*13) % 10), hy = Math.sin(k*2.3 + time*8 + i)*(4 + k*2.4);
+    c.fillStyle = `rgba(255,255,255,${(.7-k*.05).toFixed(2)})`;
+    c.beginPath(); c.arc(hx, hy, Math.max(.8, 3.4-k*.2), 0, 7); c.fill();
+  }
+  // ноги
+  const kick = Math.sin(time*24 + i)*5;
+  c.fillStyle = '#e9bd98';
+  c.beginPath(); c.ellipse(-50, -3.5+kick, 19, 3.2, 0, 0, 7); c.fill();
+  c.beginPath(); c.ellipse(-50,  3.5-kick, 19, 3.2, 0, 0, 7); c.fill();
+  c.fillStyle = 'rgba(255,255,255,.75)';
+  c.beginPath(); c.arc(-71, -3.5+kick, 3.4, 0, 7); c.fill();
+  c.beginPath(); c.arc(-71,  3.5-kick, 3.4, 0, 7); c.fill();
+  // руки в воде
+  const arm = (side, air) => {
+    const f = ph + (side>0 ? 0 : Math.PI);
+    const rec = Math.sin(f) > 0;
+    if (rec !== air) return;
+    const hx = 36 + 26*Math.cos(f), hy = side*(14 + 6*Math.sin(f));
+    const ex = (18+hx)/2 + 2,       ey = side*(19 + 8*Math.max(0, Math.sin(f)));
+    if (air){
+      c.strokeStyle = 'rgba(0,20,40,.28)'; c.lineWidth = 6; c.lineCap = 'round';
+      c.beginPath(); c.moveTo(18, side*9+5); c.lineTo(ex, ey+5); c.lineTo(hx, hy+5); c.stroke();
+      c.strokeStyle = '#ffe0c0'; c.lineWidth = 6.4;
+    } else {
+      c.strokeStyle = 'rgba(228,182,144,.88)'; c.lineWidth = 5.4; c.lineCap = 'round';
+    }
+    c.lineJoin = 'round';
+    c.beginPath(); c.moveTo(18, side*9); c.lineTo(ex, ey); c.lineTo(hx, hy); c.stroke();
+    // всплеск при входе руки в воду
+    const q = fract(f/(Math.PI*2));
+    if (!air && q < .16){
+      c.strokeStyle = `rgba(255,255,255,${(1 - q/.16).toFixed(2)})`; c.lineWidth = 2;
+      c.beginPath(); c.arc(62, side*14, 5 + q*95, 0, 7); c.stroke();
+    }
+  };
+  arm(1,false); arm(-1,false);
+  // корпус и плавки
+  c.fillStyle = '#f2c9a5'; c.beginPath(); c.ellipse(0,0,34,8.5,0,0,7); c.fill();
+  c.fillStyle = CAPS[(i+2)%6]; c.beginPath(); c.ellipse(-16,0,15,8.6,0,0,7); c.fill();
+  c.fillStyle = 'rgba(255,255,255,.25)'; c.beginPath(); c.ellipse(4,-3,22,2.4,0,0,7); c.fill();
+  arm(1,true); arm(-1,true);
+  // голова, шапочка, очки
+  c.fillStyle = CAPS[i]; c.beginPath(); c.arc(40,0,9,0,7); c.fill();
+  c.fillStyle = 'rgba(255,255,255,.35)'; c.beginPath(); c.ellipse(37,-3.5,5,2,0,0,7); c.fill();
+  c.fillStyle = '#0b1e30'; c.fillRect(44.5,-6,3.4,12);
+  // волна у головы
+  c.strokeStyle = 'rgba(255,255,255,.7)'; c.lineWidth = 2;
+  c.beginPath(); c.arc(50,0,12 + Math.sin(time*9+i)*1.5, -1.1, 1.1); c.stroke();
+  c.restore();
+}
+
+function drawTransition(c, W, H, xa, xb, time, id){
+  // слои воды (светлый — снаружи, тёмный — внутри)
+  for (let k=0; k<4; k++){
+    if (xb-INSET[k] <= xa+INSET[k]+24) continue;
+    layerPath(c,H,xa,xb,k,time);
+    if (k < 3){
+      c.fillStyle = LAYERC[k]; c.fill();
+      c.strokeStyle = k===0 ? 'rgba(255,255,255,.95)' : 'rgba(255,255,255,.4)';
+      c.lineWidth = k===0 ? 3.5 : 2; c.stroke();
+    } else {
+      c.save(); c.clip();
+      const gr = c.createLinearGradient(0,0,0,H);
+      gr.addColorStop(0,'#0A5F89'); gr.addColorStop(.55,'#064265'); gr.addColorStop(1,'#03213A');
+      c.fillStyle = gr; c.fillRect(0,0,W,H);
+      // каустика (берём кадр фонового канваса)
+      c.globalCompositeOperation = 'lighter'; c.globalAlpha = .6; c.drawImage(cv,0,0,W,H);
+      c.globalAlpha = 1;
+      // лучи света
+      for (let r=0; r<5; r++){
+        const bx = (r*.24 + .08 + Math.sin(time*.4 + r)*.04)*W;
+        const gl = c.createLinearGradient(bx,0,bx+H*.35,H);
+        gl.addColorStop(0,'rgba(190,245,255,.17)'); gl.addColorStop(1,'rgba(190,245,255,0)');
+        c.fillStyle = gl; c.beginPath();
+        c.moveTo(bx,0); c.lineTo(bx+80,0); c.lineTo(bx+80+H*.35,H); c.lineTo(bx+H*.35-50,H); c.closePath(); c.fill();
+      }
+      c.globalCompositeOperation = 'source-over';
+      // дорожки с поплавками
+      for (let i=1; i<6; i++){
+        const y = H*i/6;
+        c.strokeStyle = 'rgba(255,255,255,.26)'; c.lineWidth = 2.5;
+        c.beginPath(); c.moveTo(0,y); c.lineTo(W,y); c.stroke();
+        for (let x=(i*17)%36, n=0; x<W; x+=36, n++){
+          const yy = y + Math.sin(x*.02 + time*3 + i)*2.2;
+          c.fillStyle = n%3===0 ? '#F0483E' : (n%3===1 ? '#EAFBFD' : '#FFC531');
+          c.beginPath(); c.arc(x,yy,5.2,0,7); c.fill();
+        }
+      }
+      // пузырьки
+      for (let i=0; i<38; i++){
+        const bx = hash(i)*W + Math.sin(time*1.5 + i)*10;
+        const by = H + 20 - ((time*(52 + (i*7)%44) + hash(i+50)*H*1.5) % (H+60));
+        const r = 2 + hash(i+9)*5;
+        c.fillStyle = 'rgba(234,251,253,.12)'; c.strokeStyle = 'rgba(234,251,253,.55)'; c.lineWidth = 1.2;
+        c.beginPath(); c.arc(bx,by,r,0,7); c.fill(); c.stroke();
+        c.fillStyle = 'rgba(255,255,255,.7)'; c.beginPath(); c.arc(bx-r*.35,by-r*.35,r*.22,0,7); c.fill();
+      }
+      c.restore();
+    }
+  }
+  const width = xb - xa;
+  // пена на кромках
+  const f = Math.floor(time*14);
+  if (width > 40){
+    for (let j=0; j<110; j++){
+      const y = j/110*H + hash(j+f)*10 - 5;
+      const r = 1.4 + hash(j*3+f)*3.2, a = (.45 + hash(j+f*2)*.5).toFixed(2);
+      c.fillStyle = `rgba(255,255,255,${a})`;
+      c.beginPath(); c.arc(edgeX(xb,y,0,time) + hash(j*5+f)*30 - 6, y, r, 0, 7); c.fill();
+      c.beginPath(); c.arc(edgeX(xa,y,.5,time) - hash(j*7+f)*30 + 6, y, r, 0, 7); c.fill();
+    }
+  }
+  // пловцы
+  const cx = (xa+xb)/2, spread = Math.max(0, width/2 - 230), sc = W < 700 ? .8 : 1.15;
+  const al = clamp01((width - 360)/220);
+  if (al > 0){
+    for (let i=0; i<6; i++){
+      const y = H*(i+.5)/6 + Math.sin(time*2.2 + i*2)*3;
+      drawSwimmer(c, cx + SPREAD[i]*spread, y, time, i, sc, al);
+    }
+  }
+  // название раздела едет вместе с водой
+  const dist = Math.abs(cx - W/2) / (W*.55);
+  const ta = clamp01(1 - dist); 
+  if (ta > 0 && width > 600){
+    const fs = Math.max(34, Math.min(120, W*.085)), tx = W/2 + (cx-W/2)*.35;
+    c.save(); c.globalAlpha = ta*ta*(3-2*ta);
+    c.textAlign = 'center'; c.textBaseline = 'middle';
+    c.shadowColor = 'rgba(0,15,40,.75)'; c.shadowBlur = 28;
+    c.fillStyle = '#EAFBFD'; c.font = `900 ${fs}px Unbounded, "Arial Black", sans-serif`;
+    c.fillText(LABELS[id], tx, H/2);
+    c.shadowBlur = 0; c.fillStyle = '#4FD1D9'; c.font = `600 ${Math.round(fs*.2)}px Onest, sans-serif`;
+    c.fillText('DTswim', tx, H/2 - fs*.78);
+    c.restore();
+  }
+}
+
 function go(id){
   if (!PAGES.includes(id) || id===current || busy) return;
   if (reduce){ show(id); return; }
   busy = true;
-  const W = innerWidth, S = 120, D = 1800, STEP = 90;
-  const sheets = $$('.sheet');
-  $('.dest').textContent = LABELS[id];
-  sheets.forEach((s,i) => {
-    s.style.width = (W + 2*S) + 'px';
-    $('.fill', s).style.width = W + 'px';
-    s.style.visibility = 'visible';
-    s.animate([
-      { transform:`translateX(${-(W+2*S)-260}px)`, easing:'cubic-bezier(.45,0,.25,1)' },
-      { transform:`translateX(${-S}px)`, offset:.38 },
-      { transform:`translateX(${-S}px)`, offset:.62, easing:'cubic-bezier(.75,0,.55,1)' },
-      { transform:`translateX(${W}px)` }
-    ], { duration:D, delay:i*STEP, fill:'both', easing:'linear' });
-  });
-  const last = STEP*(sheets.length-1);
-  setTimeout(() => show(id), (D + last)/2);
-  setTimeout(() => {
-    sheets.forEach(s => { s.getAnimations().forEach(a=>a.cancel()); s.style.visibility='hidden'; });
-    busy = false;
-  }, D + last + 80);
+  const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+  const W = innerWidth, H = innerHeight, A = 360, D = 2900;
+  xc.width = Math.round(W*dpr); xc.height = Math.round(H*dpr); xc.style.display = 'block';
+  let swapped = false, t0 = null;
+  function frame(now){
+    if (t0 === null) t0 = now;
+    const t = clamp01((now - t0)/D);
+    const xb = -A + (W + 2*A)*easeIO(clamp01(t/.55));
+    const xa = -A + (W + 2*A)*easeIO(clamp01((t-.45)/.55));
+    xx.setTransform(dpr,0,0,dpr,0,0);
+    xx.clearRect(0,0,W,H);
+    drawTransition(xx, W, H, xa, xb, now/1000, id);
+    if (!swapped && t >= .5){ swapped = true; show(id, 380); }
+    if (t < 1) requestAnimationFrame(frame);
+    else { xx.clearRect(0,0,W,H); xc.style.display = 'none'; busy = false; }
+  }
+  requestAnimationFrame(frame);
 }
 
 document.addEventListener('click', e => {
