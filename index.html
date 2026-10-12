@@ -74,7 +74,7 @@ h2.title{font-size:clamp(2rem,5.4vw,4rem);font-weight:900;margin-bottom:12px}
 .rope.thin{height:5px;margin:0;opacity:.5}
 
 .r{opacity:0}
-.page.in .r{animation:rise .85s var(--ease) both;animation-delay:calc(var(--i,0)*80ms + var(--base,120ms))}
+.page.in .r{opacity:1;animation:rise .85s var(--ease) backwards;animation-delay:calc(var(--i,0)*80ms + var(--base,120ms))}
 @keyframes rise{from{opacity:0;transform:translateY(34px) scale(.985)}to{opacity:1;transform:none}}
 
 .panel{background:var(--panel);border:1px solid var(--line);border-radius:24px;
@@ -197,7 +197,6 @@ h2.title{font-size:clamp(2rem,5.4vw,4rem);font-weight:900;margin-bottom:12px}
 /* ---------- coaches ---------- */
 .coach-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
 .coach{padding:30px;display:flex;flex-direction:column;gap:14px;transition:transform .4s var(--ease)}
-.coach:hover{transform:translateY(-8px)}
 .avatar{
   width:112px;height:112px;border-radius:50%;display:grid;place-items:center;
   background:conic-gradient(var(--red),var(--yellow),var(--aqua),var(--red));padding:5px;
@@ -345,6 +344,43 @@ footer{padding:30px 20px 50px}
   .tip{padding:26px}
 }
 
+/* ---------- interactive ---------- */
+.tilt{position:relative;transition:transform .5s var(--ease);will-change:transform}
+.tilt::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .25s;
+  background:radial-gradient(260px circle at var(--gx,50%) var(--gy,50%),rgba(255,255,255,.16),transparent 60%)}
+.tilt:hover::after{opacity:1}
+#lanes[data-fl="am"] .slot.pm,#lanes[data-fl="pm"] .slot.am{opacity:.2;filter:grayscale(.7)}
+.quiz{padding:clamp(24px,4vw,44px);margin-top:70px;border-radius:44px 14px 44px 14px}
+.quiz h2{font-family:var(--display);font-size:clamp(1.5rem,3.6vw,2.4rem);font-weight:900;margin-bottom:18px;letter-spacing:-.02em}
+.q-dots{display:flex;gap:8px;margin-bottom:16px}
+.q-dots i{width:34px;height:6px;border-radius:3px;background:rgba(234,251,253,.2);transition:background .3s}
+.q-dots i.on{background:var(--yellow)}
+.q-q{font-family:var(--display);font-size:1.15rem;margin-bottom:16px}
+.q-opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.q-opts button{padding:18px 20px;border-radius:20px;border:1.5px solid var(--line);background:rgba(234,251,253,.06);text-align:left;font-weight:600;transition:transform .25s var(--ease),background .25s,border-color .25s}
+.q-opts button:hover{transform:translateY(-4px);background:rgba(79,209,217,.18);border-color:var(--aqua)}
+.q-step{animation:swap .5s var(--ease) both}
+.q-res .big{font-family:var(--display);font-size:clamp(1.3rem,3vw,2rem);margin:6px 0 10px;color:var(--yellow)}
+.q-res ul{list-style:none;display:grid;gap:8px;margin:14px 0 22px}
+.q-res li{padding:12px 16px;border-radius:14px;background:rgba(234,251,253,.08)}
+.game{padding:clamp(22px,4vw,36px);margin-top:60px;border-radius:14px 44px 14px 44px}
+.g-head{display:flex;flex-wrap:wrap;justify-content:space-between;gap:14px;align-items:flex-start}
+.g-head h3{font-size:clamp(1.3rem,3vw,1.9rem);margin-bottom:6px}
+.g-head p{color:rgba(234,251,253,.82);max-width:54ch}
+.g-best{padding:8px 18px;border-radius:999px;background:var(--aqua);color:var(--deep);font-weight:700}
+#gCanvas{display:block;width:100%;height:auto;border-radius:20px;margin:18px 0;background:#064265;touch-action:manipulation}
+.g-ctl{display:flex;flex-wrap:wrap;gap:12px}
+.g-ctl .btn{user-select:none;-webkit-user-select:none;touch-action:manipulation}
+#gMsg{margin-top:12px;font-weight:600;color:var(--yellow);min-height:1.6em}
+.play{align-self:flex-start;padding:6px 14px;border-radius:999px;border:1.5px solid var(--aqua);font-weight:600;font-size:.85rem;transition:background .25s}
+.play:hover,.play[aria-pressed="true"]{background:rgba(79,209,217,.25)}
+.builder{padding:clamp(24px,4vw,40px);margin-top:50px;border-radius:44px 14px 44px 14px}
+.builder h3{font-size:clamp(1.3rem,3vw,1.9rem);margin-bottom:8px}
+.b-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin:18px 0}
+.builder label{display:grid;gap:6px;font-weight:600;font-size:.88rem;color:var(--aqua)}
+.builder input,.builder select,.builder textarea{font:inherit;color:var(--foam);color-scheme:dark;background:rgba(234,251,253,.1);border:1.5px solid var(--line);border-radius:14px;padding:12px 14px;width:100%}
+.builder textarea{resize:vertical;min-height:110px}
+
 /* ---------- responsive ---------- */
 @media (max-width:980px){
   .reason.a,.reason.b{grid-column:span 12}
@@ -461,6 +497,11 @@ footer{padding:30px 20px 50px}
       </div>
     </div>
 
+    <div class="quiz panel r" id="quiz">
+      <h2>Подберите формат за 3 вопроса</h2>
+      <div id="qBody"></div>
+    </div>
+
     <div class="first">
       <h2 class="title r">Как пройдёт первое занятие</h2>
       <p class="lead r">Оно бесплатное, так что рисковать нечем: просто приходите и попробуйте.</p>
@@ -480,12 +521,31 @@ footer{padding:30px 20px 50px}
       </div>
       <button class="btn ghost" id="tipNext">Ещё совет <span id="tipN"></span></button>
     </aside>
+
+    <section class="game panel r" id="game">
+      <div class="g-head">
+        <div><h3>Заплыв на 50 м</h3><p>Нажимайте «Левая» и «Правая» по очереди (или клавиши ← и →). Две одинаковые руки подряд сбивают ритм.</p></div>
+        <div class="g-best" id="gBest">Рекорд: —</div>
+      </div>
+      <canvas id="gCanvas" width="900" height="160"></canvas>
+      <div class="g-ctl">
+        <button class="btn ghost" id="gL">← Левая</button>
+        <button class="btn ghost" id="gR">Правая →</button>
+        <button class="btn main" id="gStart">Старт</button>
+      </div>
+      <p id="gMsg"></p>
+    </section>
   </section>
 
   <!-- ===== SCHEDULE ===== -->
   <section class="page" id="schedule" hidden>
     <h2 class="title r">Расписание</h2>
     <p class="lead r">Шесть тренировочных дней. Выберите утро или вечер — в каждой ячейке видно, сколько мест свободно.</p>
+    <div class="sub-tabs r" id="slotFilter" style="margin-bottom:16px">
+      <button data-fl="all" aria-pressed="true">Все</button>
+      <button data-fl="am" aria-pressed="false">Утро</button>
+      <button data-fl="pm" aria-pressed="false">Вечер</button>
+    </div>
     <div class="sched panel r">
       <div class="sched-head"><span>День</span><span>Утро</span><span>Вечер</span></div>
       <div id="lanes"></div>
@@ -623,6 +683,21 @@ footer{padding:30px 20px 50px}
         <li><div><b>Напишите, когда удобно</b><span>Имя и день из расписания: утро или вечер.</span></div></li>
         <li><div><b>Приходите в бассейн</b><span>Первое занятие бесплатно.</span></div></li>
       </ol>
+    </div>
+
+    <div class="builder panel r" id="builder">
+      <h3>Соберите заявку за 10 секунд</h3>
+      <p>Выберите, что вам подходит, — мы подготовим текст сообщения для Telegram.</p>
+      <div class="b-grid">
+        <label>Ваше имя<input id="rName" placeholder="Например, Иван" autocomplete="given-name"></label>
+        <label>Формат<select id="rFmt"><option value="group">В группе (до 4 человек)</option><option value="ind">Индивидуально</option></select></label>
+        <label>Занятие<select id="rSlot"></select></label>
+      </div>
+      <textarea id="rText" rows="4" aria-label="Текст заявки"></textarea>
+      <div class="row">
+        <button class="btn main" id="rSend">Скопировать и открыть Telegram</button>
+        <button class="btn ghost" id="rCopy">Только скопировать</button>
+      </div>
     </div>
 
     <div class="faq-wrap">
@@ -841,15 +916,22 @@ function scheme(poses, labels){
   });
   return o + '</svg>';
 }
+const canAnimate = e => e.poses.length > 1 && e.poses.every(p =>
+  p.lines.length === e.poses[0].lines.length &&
+  p.lines.every((l,k) => l.length === e.poses[0].lines[k].length) &&
+  (p.db||[]).length === (e.poses[0].db||[]).length);
 const exCard = (e,i,numbered) => `
   <article class="ex panel">
     <div class="ex-top"><h4>${e.t}</h4>${numbered?`<span class="n">${i+1}</span>`:''}</div>
     ${e.dose?`<span class="dose">${e.dose}</span>`:''}
     <div class="scheme">${scheme(e.poses,e.labels)}</div>
+    ${canAnimate(e)?'<button type="button" class="play" aria-pressed="false">▶ Показать движение</button>':''}
     <p>${e.tip}</p>
   </article>`;
 $('#strGrid').innerHTML  = STRENGTH.map((e,i) => exCard(e,i,true)).join('');
 $('#coreGrid').innerHTML = CORE.map((e,i) => exCard(e,i,false)).join('');
+$$('#strGrid .ex').forEach((el,i) => el._ex = STRENGTH[i]);
+$$('#coreGrid .ex').forEach((el,i) => el._ex = CORE[i]);
 
 /* ============ ПОДВОДНЫЙ ФОН (каустика) ============ */
 const cv = $('#water'), cx = cv.getContext('2d');
@@ -1082,32 +1164,245 @@ function drawTransition(c, W, H, xa, xb, time, id){
   }
 }
 
-function go(id){
-  if (!PAGES.includes(id) || id===current || busy) return;
+/* ---------- общие кусочки сцены ---------- */
+function underwater(c, W, H, time, o){
+  o = o || {};
+  const gr = c.createLinearGradient(0,0,0,H);
+  gr.addColorStop(0,'#0A5F89'); gr.addColorStop(.55,'#064265'); gr.addColorStop(1,'#03213A');
+  c.fillStyle = gr; c.fillRect(0,0,W,H);
+  c.globalCompositeOperation = 'lighter'; c.globalAlpha = .6; c.drawImage(cv,0,0,W,H); c.globalAlpha = 1;
+  for (let r=0; r<5; r++){
+    const bx = (r*.24 + .08 + Math.sin(time*.4 + r)*.04)*W;
+    const gl = c.createLinearGradient(bx,0,bx+H*.35,H);
+    gl.addColorStop(0,'rgba(190,245,255,.17)'); gl.addColorStop(1,'rgba(190,245,255,0)');
+    c.fillStyle = gl; c.beginPath();
+    c.moveTo(bx,0); c.lineTo(bx+80,0); c.lineTo(bx+80+H*.35,H); c.lineTo(bx+H*.35-50,H); c.closePath(); c.fill();
+  }
+  c.globalCompositeOperation = 'source-over';
+  if (o.ropes !== false) for (let i=1; i<6; i++) rope(c, W, H*i/6, time, i);
+  const nb = o.bub || 38;
+  for (let i=0; i<nb; i++){
+    const bx = hash(i)*W + Math.sin(time*1.5 + i)*10;
+    const by = H + 20 - ((time*(52 + (i*7)%44) + hash(i+50)*H*1.5) % (H+60));
+    const r = 2 + hash(i+9)*5;
+    c.fillStyle = 'rgba(234,251,253,.12)'; c.strokeStyle = 'rgba(234,251,253,.55)'; c.lineWidth = 1.2;
+    c.beginPath(); c.arc(bx,by,r,0,7); c.fill(); c.stroke();
+    c.fillStyle = 'rgba(255,255,255,.7)'; c.beginPath(); c.arc(bx-r*.35,by-r*.35,r*.22,0,7); c.fill();
+  }
+}
+function rope(c, W, y, time, i){
+  c.strokeStyle = 'rgba(255,255,255,.26)'; c.lineWidth = 2.5;
+  c.beginPath(); c.moveTo(0,y); c.lineTo(W,y); c.stroke();
+  for (let x=(i*17)%36, n=0; x<W; x+=36, n++){
+    const yy = y + Math.sin(x*.02 + time*3 + i)*2.2;
+    c.fillStyle = n%3===0 ? '#F0483E' : (n%3===1 ? '#EAFBFD' : '#FFC531');
+    c.beginPath(); c.arc(x,yy,5.2,0,7); c.fill();
+  }
+}
+function drawTitle(c, W, H, id, a, tx, ty){
+  if (a <= 0) return;
+  const fs = Math.max(34, Math.min(120, W*.085));
+  c.save(); c.globalAlpha = a*a*(3-2*a);
+  c.textAlign = 'center'; c.textBaseline = 'middle';
+  c.shadowColor = 'rgba(0,15,40,.75)'; c.shadowBlur = 28;
+  c.fillStyle = '#EAFBFD'; c.font = `900 ${fs}px Unbounded, "Arial Black", sans-serif`;
+  c.fillText(LABELS[id], tx===undefined ? W/2 : tx, ty===undefined ? H/2 : ty);
+  c.shadowBlur = 0; c.fillStyle = '#4FD1D9'; c.font = `600 ${Math.round(fs*.2)}px Onest, sans-serif`;
+  c.fillText('DTswim', tx===undefined ? W/2 : tx, (ty===undefined ? H/2 : ty) - fs*.78);
+  c.restore();
+}
+function drawFish(c, x, y, s, time, i, dir){
+  c.save(); c.translate(x,y); c.scale(dir*s, s);
+  const w = Math.sin(time*9 + i)*.25;
+  c.fillStyle = i%3===0 ? '#FFC531' : (i%3===1 ? '#ff8a4c' : '#f2e6c9');
+  c.beginPath(); c.ellipse(0,0,16,7,0,0,7); c.fill();
+  c.save(); c.translate(-14,0); c.rotate(w);
+  c.beginPath(); c.moveTo(0,0); c.lineTo(-12,-8); c.lineTo(-12,8); c.closePath(); c.fill(); c.restore();
+  c.fillStyle = 'rgba(255,255,255,.35)'; c.beginPath(); c.ellipse(-1,2.5,9,2.5,0,0,7); c.fill();
+  c.fillStyle = '#03213A'; c.beginPath(); c.arc(9,-2,1.6,0,7); c.fill();
+  c.restore();
+}
+function foamBands(c, k, ctxFill){ if (k<3){ c.fillStyle = LAYERC[k]; c.fill(ctxFill);
+  c.strokeStyle = k===0 ? 'rgba(255,255,255,.95)' : 'rgba(255,255,255,.4)'; c.lineWidth = k===0 ? 3.5 : 2; c.stroke(); } }
+
+/* ---------- стиль 2: круги от клика ---------- */
+const INS_R = [0,30,60,90];
+function ringPath(c, ox, oy, R, k, time){
+  for (let a=0, i=0; a<=Math.PI*2+.07; a+=.06, i++){
+    const r = Math.max(0, R + 10*Math.sin(a*5 + time*4 + k) + 6*Math.sin(a*9 - time*6 + k*2) + 3*Math.sin(a*17 + time*9));
+    const x = ox + Math.cos(a)*r, y = oy + Math.sin(a)*r;
+    i===0 ? c.moveTo(x,y) : c.lineTo(x,y);
+  }
+}
+function drawRipple(c, W, H, t, time, id, o){
+  const far = Math.max(Math.hypot(o.x,o.y), Math.hypot(W-o.x,o.y), Math.hypot(o.x,H-o.y), Math.hypot(W-o.x,H-o.y)) + 150;
+  const exp = t < .5;
+  const R = exp ? easeIO(t/.5)*far : -100 + (far+100)*easeIO((t-.5)/.5);
+  for (let k=0; k<4; k++){
+    const rad = exp ? R - INS_R[k] : R + INS_R[k];
+    if (exp && rad <= 2) continue;
+    if (!exp && rad >= far) continue;
+    c.beginPath();
+    if (!exp) c.rect(-10,-10,W+20,H+20);
+    ringPath(c, o.x, o.y, Math.max(0,rad), k, time);
+    if (k < 3){ foamBands(c,k,exp?'nonzero':'evenodd'); }
+    else {
+      c.save(); c.clip(exp ? 'nonzero' : 'evenodd');
+      underwater(c,W,H,time,{bub:46});
+      c.restore();
+    }
+  }
+  // круги по поверхности вокруг края
+  for (let j=1; j<=3; j++){
+    const rr = exp ? R + 30*j : Math.max(0, R - 30*j);
+    if (rr < 4) continue;
+    c.beginPath(); ringPath(c, o.x, o.y, rr, j, time*.7);
+    c.strokeStyle = `rgba(255,255,255,${(.38/j).toFixed(2)})`; c.lineWidth = 2.2; c.stroke();
+  }
+  // брызги по кромке
+  const f = Math.floor(time*14);
+  for (let j=0; j<130; j++){
+    const a = hash(j+f*.3)*Math.PI*2, rr = Math.max(0, R + (hash(j*3+f)*34 - 8)*(exp?1:-1));
+    c.fillStyle = `rgba(255,255,255,${(.4 + hash(j+f*2)*.5).toFixed(2)})`;
+    c.beginPath(); c.arc(o.x + Math.cos(a)*rr, o.y + Math.sin(a)*rr, 1.3 + hash(j*5+f)*3, 0, 7); c.fill();
+  }
+  drawTitle(c, W, H, id, clamp01(1 - Math.abs(t-.5)/.17));
+}
+
+/* ---------- стиль 3: подъём воды ---------- */
+function drawRise(c, W, H, t, time, id){
+  const A = 360;
+  const yb = H + A - (H+2*A)*easeIO(clamp01(t/.55));
+  const ya = H + A - (H+2*A)*easeIO(clamp01((t-.45)/.55));
+  for (let k=0; k<4; k++){
+    const top = yb + INSET[k], bot = ya - INSET[k];
+    if (bot <= top + 24) continue;
+    c.beginPath();
+    for (let x=-8; x<=W+8; x+=8){ const y = edgeX(top, x, k, time); x===-8 ? c.moveTo(x,y) : c.lineTo(x,y); }
+    for (let x=W+8; x>=-8; x-=8) c.lineTo(x, edgeX(bot, x, k+.5, time));
+    c.closePath();
+    if (k < 3) foamBands(c,k,'nonzero');
+    else {
+      c.save(); c.clip();
+      underwater(c,W,H,time,{ropes:false,bub:90});
+      for (let i=0; i<16; i++){
+        const sp = 40 + hash(i)*60, dir = i%2 ? 1 : -1, tt = (time*sp + hash(i+30)*W*2) % (W+240);
+        const x = dir>0 ? tt-120 : W+120-tt;
+        drawFish(c, x, H*(.08 + .84*hash(i+5)) + Math.sin(time*2 + i)*6, .9 + hash(i+9)*.8, time, i, dir);
+      }
+      c.restore();
+    }
+  }
+  const f = Math.floor(time*14);
+  if (ya - yb > 40){
+    for (let j=0; j<120; j++){
+      const x = j/120*W + hash(j+f)*10 - 5;
+      c.fillStyle = `rgba(255,255,255,${(.45 + hash(j+f*2)*.5).toFixed(2)})`;
+      c.beginPath(); c.arc(x, edgeX(yb,x,0,time) - hash(j*3+f)*26 + 6, 1.4 + hash(j*5+f)*3, 0, 7); c.fill();
+      c.beginPath(); c.arc(x, edgeX(ya,x,.5,time) + hash(j*7+f)*26 - 6, 1.4 + hash(j*11+f)*3, 0, 7); c.fill();
+    }
+  }
+  const cy = (yb+ya)/2, dist = Math.abs(cy - H/2)/(H*.55);
+  if (ya - yb > 500) drawTitle(c, W, H, id, clamp01(1 - dist), W/2, H/2 + (cy-H/2)*.35);
+}
+
+/* ---------- стиль 4: гонка по дорожкам ---------- */
+function bandPath(c, y0, y1, xa, xb, k, time, ins){
+  c.beginPath();
+  for (let y=y0-6; y<=y1+6; y+=6){ const x = edgeX(xb-ins, y, k, time); y===y0-6 ? c.moveTo(x,y) : c.lineTo(x,y); }
+  for (let y=y1+6; y>=y0-6; y-=6) c.lineTo(edgeX(xa+ins, y, k+.5, time), y);
+  c.closePath();
+}
+function drawRace(c, W, H, t, time, id){
+  const A = 260, lh = H/6, ins = [0,30,60,90], sc = W < 700 ? .8 : 1.1;
+  for (let i=0; i<6; i++){
+    const dir = i%2 ? -1 : 1;
+    const Li = easeIO(clamp01((t - .03*i)/.34)), Ti = easeIO(clamp01((t - .54 - .03*i)/.31));
+    const ub = -A + (W+2*A)*Li, ua = -A + (W+2*A)*Ti;
+    if (ub - ua < 30) continue;
+    const y0 = i*lh, y1 = y0 + lh;
+    c.save(); c.beginPath(); c.rect(0,y0,W,lh); c.clip();
+    if (dir < 0){ c.translate(W,0); c.scale(-1,1); }
+    for (let k=0; k<4; k++){
+      if (ub-ins[k] <= ua+ins[k]+20) continue;
+      bandPath(c,y0,y1,ua,ub,k,time,ins[k]);
+      if (k < 3) foamBands(c,k,'nonzero');
+      else {
+        c.save(); c.clip();
+        underwater(c,W,H,time,{ropes:false,bub:8});
+        rope(c,W,y0+1.5,time,i); rope(c,W,y1-1.5,time,i+1);
+        c.restore();
+      }
+    }
+    const f = Math.floor(time*14);
+    for (let j=0; j<14; j++){
+      const y = y0 + hash(j+f+i*9)*lh;
+      c.fillStyle = `rgba(255,255,255,${(.45 + hash(j+f*2)*.5).toFixed(2)})`;
+      c.beginPath(); c.arc(edgeX(ub,y,0,time) + hash(j*5+f+i)*24 - 4, y, 1.3 + hash(j*3+f)*2.6, 0, 7); c.fill();
+      c.beginPath(); c.arc(edgeX(ua,y,.5,time) - hash(j*7+f+i)*24 + 4, y, 1.3 + hash(j*2+f)*2.6, 0, 7); c.fill();
+    }
+    const al = clamp01((ub - ua - 300)/200);
+    if (al > 0) drawSwimmer(c, (ua+ub)/2 + (i%3-1)*40, y0 + lh/2, time + i*.3, i, sc, al);
+    c.restore();
+  }
+  drawTitle(c, W, H, id, clamp01(1 - Math.abs(t-.52)/.13));
+}
+
+/* ---------- выбор и запуск перехода ---------- */
+const STYLES = [
+  { name:'wave',   D:1900, swap:.5,  base:220, draw:(c,W,H,t,time,id) => {
+      const A = 360;
+      const xb = -A + (W+2*A)*easeIO(clamp01(t/.55)), xa = -A + (W+2*A)*easeIO(clamp01((t-.45)/.55));
+      drawTransition(c,W,H,xa,xb,time,id); } },
+  { name:'ripple', D:1800, swap:.5,  base:200, draw:drawRipple },
+  { name:'rise',   D:1900, swap:.5,  base:220, draw:drawRise },
+  { name:'race',   D:2100, swap:.52, base:220, draw:drawRace }
+];
+let lastStyle = -1, cur = null;
+function finishTrans(){
+  if (!cur) return;
+  cur.done = true; cur = null;
+  xx.setTransform(1,0,0,1,0,0); xx.clearRect(0,0,xc.width,xc.height);
+  xc.style.display = 'none'; busy = false;
+}
+function go(id, origin){
+  if (!PAGES.includes(id)) return;
+  if (busy && cur){
+    if (id === cur.id) return;
+    if (!cur.swapped){ cur.id = id; return; }   // ещё не переключили — просто меняем цель
+    finishTrans();                              // уже открывается — сразу начинаем новый переход
+  }
+  if (id === current) return;
   if (reduce){ show(id); return; }
   busy = true;
-  const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
-  const W = innerWidth, H = innerHeight, A = 360, D = 2900;
-  xc.width = Math.round(W*dpr); xc.height = Math.round(H*dpr); xc.style.display = 'block';
-  let swapped = false, t0 = null;
+  const n = STYLES.length; const si = lastStyle < 0 ? Math.floor(Math.random()*n) : (lastStyle + 1 + Math.floor(Math.random()*(n-1))) % n;
+  lastStyle = si; const st = STYLES[si];
+  const dpr = 1;
+  const W = innerWidth, H = innerHeight;
+  const o = origin || { x:W/2, y:H/2 };
+  xc.width = W; xc.height = H; xc.style.display = 'block';
+  const me = { id, swapped:false, done:false }; cur = me;
+  let t0 = null;
   function frame(now){
+    if (me.done) return;
     if (t0 === null) t0 = now;
-    const t = clamp01((now - t0)/D);
-    const xb = -A + (W + 2*A)*easeIO(clamp01(t/.55));
-    const xa = -A + (W + 2*A)*easeIO(clamp01((t-.45)/.55));
+    const t = clamp01((now - t0)/st.D);
     xx.setTransform(dpr,0,0,dpr,0,0);
     xx.clearRect(0,0,W,H);
-    drawTransition(xx, W, H, xa, xb, now/1000, id);
-    if (!swapped && t >= .5){ swapped = true; show(id, 380); }
-    if (t < 1) requestAnimationFrame(frame);
-    else { xx.clearRect(0,0,W,H); xc.style.display = 'none'; busy = false; }
+    st.draw(xx, W, H, t, now/1000, me.id, o);
+    if (!me.swapped && t >= st.swap){ me.swapped = true; if (me.id !== current) show(me.id, st.base); }
+    if (t < 1) requestAnimationFrame(frame); else finishTrans();
   }
   requestAnimationFrame(frame);
 }
 
 document.addEventListener('click', e => {
   const b = e.target.closest('[data-go]');
-  if (b){ go(b.dataset.go); }
+  if (!b) return;
+  let o;
+  if (e.detail > 0 && (e.clientX || e.clientY)) o = { x:e.clientX, y:e.clientY };
+  else { const r = b.getBoundingClientRect(); o = { x:r.left + r.width/2, y:r.top + r.height/2 }; }
+  go(b.dataset.go, o);
 });
 
 /* вкладки Вода / Суша, Корпус / Сила */
@@ -1351,6 +1646,207 @@ $('#dList').addEventListener('click', e => {
   diary = diary.filter(x => String(x.id) !== b.dataset.del); dSave(); renderDiary();
 });
 renderDiary();
+
+/* ============ ИНТЕРАКТИВ ============ */
+const TG_LINK = 'https://t.me/ordersecurity';
+
+/* --- наклон карточек --- */
+function addTilt(el){
+  el.classList.add('tilt');
+  el.addEventListener('pointermove', e => {
+    if (e.pointerType === 'touch') return;
+    const r = el.getBoundingClientRect(), px = (e.clientX-r.left)/r.width, py = (e.clientY-r.top)/r.height;
+    el.style.transition = 'transform .08s';
+    el.style.transform = `perspective(900px) rotateX(${((.5-py)*8).toFixed(2)}deg) rotateY(${((px-.5)*10).toFixed(2)}deg) translateY(-4px)`;
+    el.style.setProperty('--gx', (px*100)+'%'); el.style.setProperty('--gy', (py*100)+'%');
+  });
+  el.addEventListener('pointerleave', () => { el.style.transition = 'transform .5s var(--ease)'; el.style.transform = ''; });
+}
+$$('.coach,.price,.reason').forEach(addTilt);
+
+/* --- фильтр расписания --- */
+$$('#slotFilter [data-fl]').forEach(b => b.addEventListener('click', () => {
+  $('#lanes').dataset.fl = b.dataset.fl;
+  $$('#slotFilter [data-fl]').forEach(x => x.setAttribute('aria-pressed', x===b));
+}));
+
+/* --- анимация упражнений --- */
+const lerp = (a,b,k) => a + (b-a)*k;
+function stopScheme(card){
+  if (!card._raf && !card._static) return;
+  cancelAnimationFrame(card._raf); card._raf = 0;
+  if (card._static){ $('.scheme', card).innerHTML = card._static; card._static = null; }
+  const b = $('.play', card); if (b){ b.textContent = '▶ Показать движение'; b.setAttribute('aria-pressed','false'); }
+}
+function playScheme(card){
+  const e = card._ex, box = $('.scheme', card), btn = $('.play', card);
+  if (card._static){ stopScheme(card); return; }
+  card._static = box.innerHTML;
+  const P = e.poses, n = P.length, seq = n===2 ? [0,1,0] : [0,1,2,1,0];
+  const ns = 'http://www.w3.org/2000/svg';
+  box.innerHTML = '<svg viewBox="0 0 100 114"></svg>';
+  const svg = $('svg', box);
+  const mk = (tag, attrs) => { const el = document.createElementNS(ns, tag); for (const k in attrs) el.setAttribute(k, attrs[k]); svg.appendChild(el); return el; };
+  mk('line', { x1:0, y1:92, x2:100, y2:92, stroke:'rgba(79,209,217,.45)', 'stroke-width':1.5 });
+  (P[0].eq||[]).forEach(l => mk('polyline', { class:'q', points:l.map(p=>p.join(',')).join(' ') }));
+  const lines = P[0].lines.map(() => mk('polyline', { class:'b' }));
+  const dbs = (P[0].db||[]).map(() => mk('circle', { r:3.8, fill:'#FFC531' }));
+  const head = mk('circle', { r:6, fill:'#EAFBFD' });
+  const lab = mk('text', { x:50, y:108, 'text-anchor':'middle', style:'font-size:6px' });
+  btn.textContent = '■ Остановить'; btn.setAttribute('aria-pressed','true');
+  const t0 = performance.now();
+  function loop(now){
+    if (current !== 'programs' || !card.isConnected){ stopScheme(card); return; }
+    const u = (((now - t0)/1000)*.42 % 1)*(seq.length-1), i = Math.floor(u), f = (1 - Math.cos((u-i)*Math.PI))/2;
+    const A = P[seq[i]], B = P[seq[i+1]];
+    lines.forEach((el,k) => el.setAttribute('points',
+      A.lines[k].map((p,j) => lerp(p[0],B.lines[k][j][0],f).toFixed(1)+','+lerp(p[1],B.lines[k][j][1],f).toFixed(1)).join(' ')));
+    dbs.forEach((el,k) => { el.setAttribute('cx', lerp(A.db[k][0],B.db[k][0],f)); el.setAttribute('cy', lerp(A.db[k][1],B.db[k][1],f)); });
+    head.setAttribute('cx', lerp(A.head[0],B.head[0],f)); head.setAttribute('cy', lerp(A.head[1],B.head[1],f));
+    lab.textContent = e.labels[seq[Math.round(u)]];
+    card._raf = requestAnimationFrame(loop);
+  }
+  card._raf = requestAnimationFrame(loop);
+}
+document.addEventListener('click', ev => {
+  const b = ev.target.closest('.play'); if (!b) return;
+  playScheme(b.closest('.ex'));
+});
+
+/* --- квиз «подберите формат» --- */
+const QUIZ = [
+  { q:'Вы уже умеете плавать?', o:['Только начинаю','Плаваю уверенно','Готовлюсь к соревнованиям'] },
+  { q:'Что для вас важнее?',    o:['Внимание тренера лично ко мне','Группа и атмосфера','Пока не знаю — хочу попробовать'] },
+  { q:'Когда удобнее заниматься?', o:['Утром','Вечером','Без разницы'] }
+];
+let qi = 0, qa = [], quizRes = null;
+function renderQuiz(){
+  const b = $('#qBody');
+  if (qi < QUIZ.length){
+    const q = QUIZ[qi];
+    b.innerHTML = `<div class="q-step"><div class="q-dots">${QUIZ.map((_,i)=>`<i class="${i<=qi?'on':''}"></i>`).join('')}</div>
+      <p class="q-q">${q.q}</p><div class="q-opts">${q.o.map((t,i)=>`<button type="button" data-qa="${i}">${t}</button>`).join('')}</div></div>`;
+    return;
+  }
+  const personal = qa[1]===0 || qa[0]===2, fmt = personal ? 'ind' : 'group', time = qa[2];
+  const when = time===0 ? 'пн, ср, пт — 8:00–9:45 или суббота — 8:00–10:00'
+             : time===1 ? 'пн–пт — 15:00–16:45' : 'любой день из расписания, утром или вечером';
+  quizRes = { fmt, time };
+  b.innerHTML = `<div class="q-step q-res"><p class="q-q">Вам подойдёт</p>
+    <div class="big">${personal?'Индивидуальная тренировка':'Группа до 4 человек'} · ${PRICES[fmt]} BYN</div>
+    <ul><li>${personal?'Тренер занимается только с вами и строит занятие под вашу цель.':'Небольшая группа: тренер видит технику каждого, а заниматься веселее вместе.'}</li>
+    <li>Время: ${when}.</li><li>Первое занятие бесплатно, так что можно просто попробовать.</li>
+    ${qa[0]===0?'<li>Скажите тренеру, что только начинаете, — он подберёт нагрузку.</li>':''}</ul>
+    <div class="row" style="margin-top:0"><button class="btn main" id="qGo">Записаться с этим выбором</button><button class="btn ghost" id="qAgain">Пройти заново</button></div></div>`;
+}
+$('#qBody').addEventListener('click', e => {
+  const a = e.target.closest('[data-qa]');
+  if (a){ qa[qi] = +a.dataset.qa; qi++; renderQuiz(); return; }
+  if (e.target.closest('#qAgain')){ qi = 0; qa = []; renderQuiz(); return; }
+  const g = e.target.closest('#qGo');
+  if (g){
+    $('#rFmt').value = quizRes.fmt;
+    const kind = ['am','pm',''][quizRes.time];
+    const opt = $$('#rSlot option').find(o => o.dataset.kind === kind) || $('#rSlot option');
+    $('#rSlot').value = opt.value; buildReq();
+    toast('Заявка подготовлена — проверьте и отправьте');
+    const r = g.getBoundingClientRect(); go('signup', { x:r.left+r.width/2, y:r.top+r.height/2 });
+  }
+});
+renderQuiz();
+
+/* --- заявка в Telegram --- */
+$('#rSlot').innerHTML = '<option value="" data-kind="">Любое время из расписания</option>' +
+  SCHEDULE.map(d => ['am','pm'].map(k => d[k] ? `<option value="${d.full}, ${d[k].t}" data-kind="${k}">${d.full}, ${d[k].t}</option>` : '').join('')).join('');
+function buildReq(){
+  const name = $('#rName').value.trim(), slot = $('#rSlot').value;
+  const fmt = $('#rFmt').value === 'ind' ? 'индивидуально' : 'в группе';
+  $('#rText').value = `Здравствуйте!${name ? ' Меня зовут ' + name + '.' : ''} Хочу записаться на бесплатное первое занятие` +
+    `${slot ? ': ' + slot : ''}, формат — ${fmt}. Подскажите, пожалуйста, есть ли свободные места?`;
+}
+['#rName','#rFmt','#rSlot'].forEach(q => $(q).addEventListener('input', buildReq));
+buildReq();
+async function copyReq(){
+  const txt = $('#rText').value;
+  try { await navigator.clipboard.writeText(txt); return true; }
+  catch(e){ try { $('#rText').select(); return document.execCommand('copy'); } catch(e2){ return false; } }
+}
+$('#rCopy').addEventListener('click', async () => { toast(await copyReq() ? 'Текст скопирован' : 'Выделите текст и скопируйте вручную'); });
+$('#rSend').addEventListener('click', async () => {
+  const w = window.open(TG_LINK, '_blank', 'noopener');
+  toast(await copyReq() ? 'Текст скопирован — вставьте его в чат' : 'Откройте чат и напишите нам');
+  if (!w) location.href = TG_LINK;
+});
+
+/* --- мини-игра: заплыв на 50 м --- */
+const G = { c:$('#gCanvas').getContext('2d'), state:'idle', pos:0, last:-1, streak:0, t0:0, vt:0, vel:0, raf:0, prev:0 };
+const G_KEY = 'dtswim_best50';
+const gBest = () => { try { return parseFloat(localStorage.getItem(G_KEY)) || null; } catch(e){ return null; } };
+function gBestShow(){ const b = gBest(); $('#gBest').textContent = b ? `Рекорд: ${b.toFixed(1).replace('.',',')} с` : 'Рекорд: —'; }
+function gDraw(now){
+  const c = G.c, W = 900, H = 160;
+  const gr = c.createLinearGradient(0,0,0,H); gr.addColorStop(0,'#0A6A96'); gr.addColorStop(1,'#064265');
+  c.fillStyle = gr; c.fillRect(0,0,W,H);
+  const off = (G.pos*16) % 70;
+  c.fillStyle = 'rgba(255,255,255,.1)';
+  for (let x=-70; x<W+70; x+=70) for (let r=0; r<3; r++){
+    c.beginPath(); c.ellipse(x - off + r*23, 34 + r*46 + Math.sin(now/500 + x)*3, 26, 4, 0, 0, 7); c.fill();
+  }
+  rope(c,W,10,now/1000,1); rope(c,W,H-10,now/1000,2);
+  c.font = '600 12px Onest, sans-serif'; c.textAlign = 'center';
+  for (let m=0; m<=50; m+=10){
+    const x = 60 + m/50*780;
+    c.fillStyle = 'rgba(255,255,255,.25)'; c.fillRect(x-1,22,2,H-44);
+    c.fillStyle = 'rgba(255,255,255,.75)'; c.fillText(m + ' м', x, 20);
+  }
+  for (let i=0; i<6; i++){ c.fillStyle = i%2 ? '#fff' : '#03213A'; c.fillRect(838 + (i%2)*8, 24 + i*18, 8, 18); c.fillStyle = i%2 ? '#03213A' : '#fff'; c.fillRect(846 - (i%2)*8, 24 + i*18, 8, 18); }
+  const x = 60 + Math.min(50,G.pos)/50*780;
+  drawSwimmer(c, x, H/2 + Math.sin(now/220)*2, G.vt, 0, .8, 1);
+  c.textAlign = 'left'; c.fillStyle = '#fff'; c.font = '700 20px Unbounded, Arial Black, sans-serif';
+  const el = G.state==='run' ? (now - G.t0)/1000 : (G.final || 0);
+  c.fillText(el.toFixed(1).replace('.',',') + ' с', 16, H-22);
+}
+function gLoop(now){
+  const dt = G.prev ? (now - G.prev)/1000 : 0; G.prev = now;
+  G.vel *= .94; G.vt += dt*(1.2 + G.vel*9);
+  gDraw(now);
+  if (G.state !== 'idle') G.raf = requestAnimationFrame(gLoop); else G.raf = 0;
+}
+function gTap(side){
+  if (G.state !== 'run') return;
+  if (side === G.last){ G.streak = 0; G.pos = Math.max(0, G.pos - .25); $('#gMsg').textContent = 'Та же рука! Чередуйте.'; }
+  else { G.streak++; G.pos += .42 + Math.min(G.streak,12)*.02; G.vel = 1; if (G.streak===1) $('#gMsg').textContent = ''; }
+  G.last = side;
+  if (G.pos >= 50) gFinish();
+}
+function gFinish(){
+  const t = (performance.now() - G.t0)/1000; G.final = t; G.state = 'idle'; G.pos = 50;
+  const best = gBest(), nb = !best || t < best;
+  if (nb){ try { localStorage.setItem(G_KEY, String(t)); } catch(e){} }
+  gBestShow(); $('#gStart').textContent = 'Ещё раз';
+  $('#gMsg').textContent = `Финиш! ${t.toFixed(1).replace('.',',')} с${nb ? ' — новый рекорд!' : ''}`;
+  if (nb) toast('Новый рекорд в заплыве!');
+  gDraw(performance.now());
+}
+$('#gStart').addEventListener('click', () => {
+  if (G.state !== 'idle') return;
+  G.state = 'count'; G.pos = 0; G.last = -1; G.streak = 0; G.vel = 0; G.final = 0;
+  if (!G.raf) { G.prev = 0; G.raf = requestAnimationFrame(gLoop); }
+  let n = 3; $('#gMsg').textContent = n + '…';
+  const iv = setInterval(() => {
+    n--;
+    if (n > 0){ $('#gMsg').textContent = n + '…'; return; }
+    clearInterval(iv); G.state = 'run'; G.t0 = performance.now(); $('#gMsg').textContent = 'Плывём!';
+  }, 700);
+});
+$('#gL').addEventListener('pointerdown', e => { e.preventDefault(); gTap(0); });
+$('#gR').addEventListener('pointerdown', e => { e.preventDefault(); gTap(1); });
+document.addEventListener('keydown', e => {
+  if (current !== 'home' || G.state !== 'run') return;
+  if (e.key === 'ArrowLeft'){ e.preventDefault(); gTap(0); }
+  if (e.key === 'ArrowRight'){ e.preventDefault(); gTap(1); }
+});
+gBestShow(); gDraw(performance.now());
 
 /* старт */
 const start = location.hash.replace('#','');
